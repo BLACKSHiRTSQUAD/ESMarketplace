@@ -17,6 +17,6 @@ from django.contrib import admin
 from django.urls import path, include
 
 urlpatterns = [
-    path('main/', include('marketplaceApp.urls')),
+    path('polls/', include('marketplaceApp.urls')),
     path('admin/', admin.site.urls)
 ]
