@@ -2,8 +2,10 @@ from django.urls import path, re_path
 
 from . import views
 
-app_name = 'marketplaceApp'
+app_name = 'esm'
 urlpatterns = [
-    path('', views.MainPageView.as_view(), name='index'),
+    path('', views.home, name='home'),
+    path('login/', views.login, name='login'),
+    path('signup/', views.signup, name='signup'),
 
 ]
