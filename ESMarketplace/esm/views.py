@@ -8,7 +8,8 @@ from django.contrib.auth import authenticate
 
 # Create your views here.
 def home(request):
-    return render(request, 'esm/home.html', {})
+    context = {'nbar': 'home'}
+    return render(request, 'esm/home.html', context)
 
 
 def login(request):
@@ -35,3 +36,23 @@ def signup(request):
         print(user)
         return HttpResponseRedirect(reverse('esm:login'))
     return render(request, 'esm/signup.html', {})
+
+
+def create(request):
+    context = {'nbar': 'create'}
+    return render(request, 'esm/create.html', context)
+
+
+def store(request):
+    context = {'nbar': 'store'}
+    return render(request, 'esm/store.html', context)
+
+
+def purchased(request):
+    context = {'nbar': 'purchased'}
+    return render(request, 'esm/purchased.html', context)
+
+
+def account(request):
+    context = {'nbar': 'account'}
+    return render(request, 'esm/account.html', context)
