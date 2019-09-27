@@ -56,3 +56,8 @@ def purchased(request):
 def account(request):
     context = {'nbar': 'account'}
     return render(request, 'esm/account.html', context)
+
+def test(request):
+    dbobj = User.objects.all()
+    context = {'nbar': 'test', 'name': dbobj}
+    return render(request, 'esm/test.html', context)
