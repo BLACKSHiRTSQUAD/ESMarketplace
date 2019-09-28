@@ -31,7 +31,7 @@ def signup(request):
         firstname = request.POST['firstname']
         lastname = request.POST['lastname']
         email = request.POST['email']
-        user = User.objects.create_user(username, email, password,first_name=firstname, last_name=lastname)
+        user = User.objects.create_user(username, email, password, first_name=firstname, last_name=lastname)
         user.save()
         print(user)
         return HttpResponseRedirect(reverse('esm:login'))
@@ -43,9 +43,15 @@ def create(request):
     return render(request, 'esm/create.html', context)
 
 
+def edit(request, es_id):
+
+    context = {'nbar': 'account', 'es_id': es_id}
+    return render(request, 'esm/edit.html', context)
+
+
 def store(request):
     context = {'nbar': 'store'}
-    return render(request, 'esm/store.html', context)
+    return render(request, 'esm/edit.html', context)
 
 
 def purchased(request):
@@ -59,7 +65,7 @@ def account(request):
 
 
 def test(request):
-    user = User.objects.get(pk=1)
+    user = User.objects.get(username='juser')
     username = user.username
     first_name = user.first_name
     last_name = user.last_name

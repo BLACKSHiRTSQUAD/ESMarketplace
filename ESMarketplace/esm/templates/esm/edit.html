@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ESM - Edit</title>
+
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'esm/theme.css' %}">
+
+</head>
+<body>
+<div class="basic">
+{% include "esm/navbar.html" %}
+</div>
+
+<h1>Edit</h1>
+
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+<form action="/create" method="post">
+{% csrf_token %}
+{% for choice in question.choices_set.all %}
+    <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}">
+    <label for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><br>
+{% endfor %}
+<input type="submit" value="Vote">
+</form>
+
+</body>
+</html>

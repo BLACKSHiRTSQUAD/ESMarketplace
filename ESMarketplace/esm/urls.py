@@ -12,6 +12,7 @@ urlpatterns = [
     path('purchased/', views.purchased, name='purchased'),
     path('account/', views.account, name='account'),
     path('test/', views.test, name='test'),
+    path('create/edit/<int:es_id>', views.edit, name='edit'),
 
 
 ]
