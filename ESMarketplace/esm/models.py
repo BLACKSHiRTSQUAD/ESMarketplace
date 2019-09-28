@@ -15,19 +15,26 @@ class ExpertSystem(models.Model):
         return self.title
 
 
+# Creates a tree-like structure with nodes linked to each other
 class ESQuestion(models.Model):
+    # Only used for the first question in an ES
     es_id = models.OneToOneField(ExpertSystem, on_delete=models.PROTECT, null=True, blank=True)
-    next_questions_id = models.ForeignKey('self', on_delete=models.CASCADE)
-    choice_text = models.CharField(max_length=160)
-    question_text = models.CharField(max_length=400)
-    leaf = models.BooleanField(default=False)
-    leaf_text = models.CharField(max_length=500, default='')
+    # Question that links to this question, and the choice_text that got us here
+    prev_question_id = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True)
+    prev_choice_text = models.CharField(max_length=160, null=True, blank=True)
+    # Following the previous choice, the new question text ...
+    # OR ... if leaf node, the question_text is actually the answer text.
+    qa_text = models.CharField(max_length=400)
+    leaf = models.BooleanField(default=False, null=True, blank=True)
 
     def __str__(self):
-        return self.question_text
+        return self.qa_text
 
 
 class ESPurchased(models.Model):
     user_id = models.ForeignKey(User, on_delete=models.PROTECT)
     es_id = models.ForeignKey(ExpertSystem, on_delete=models.PROTECT)
+
+    def __str__(self):
+        return self.user_id
 
