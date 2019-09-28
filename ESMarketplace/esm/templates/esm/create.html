@@ -4,19 +4,6 @@
     <meta charset="UTF-8">
     <title>Title</title>
 
-    <script>
-      function one_three_func() {
-          document.getElementById("demo").innerHTML = "<form>\n" +
-              "  <p>Are you sure?</p>\n" +
-              "  <input id=\"400\" type=\"radio\" value=\"1\" name=\"question2\">\n" +
-              "  <label for=\"400\">200 Success</label>\n" +
-              "  <br>\n" +
-              "  <input id=\"401\" type=\"radio\" value=\"2\" name=\"question2\">\n" +
-              "  <label for=\"401\">400 Bad Request</label>\n" +
-              "  <br>\n" +
-              "</form>";
-      }
-  </script>
 
 
 </head>
@@ -31,41 +18,7 @@
 
 <h1>Create</h1>
 
-<form id="formOne">
-  <p>Open a browser and try to access google.com. What's the result?</p>
-  <input id="349" type="radio" value="1" name="question1">
-  <label for="349">200 Success</label>
-  <br>
-  <input id="350" type="radio" value="2" name="question1">
-  <label for="350">400 Bad Request</label>
-  <br>
-  <input id="351" type="radio" value="3" name="question1" onchange="one_three_func()">
-  <label for="351">404 Not Found</label>
-  <br>
-  <input id="352" type="radio" value="4" name="question1" onchange="myFunction()">
-  <label for="352">408 Request Timed Out</label>
-  <br>
-</form>
 
-    <div class="reveal-if-active">
-    <p>Anything you want in here.</p>
-</div>
-
-
-
-<button type="button" onclick="myFunction()">Click here</button>
-<p id="demo"></p>
-
-<script>
-document.getElementById("demo").innerHTML = "My First JavaScript";
-
-function myFunction() {
-    document.getElementById("demo").innerHTML = "Paragraph changed.";
-}
-
-
-
-</script>
 
 </body>
 </html>

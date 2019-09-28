@@ -29,22 +29,22 @@
 {% include "esm/navbar.html" %}
 </div>
 
-<h1>Create</h1>
+<h1>test</h1>
 <h3>{{ name }}</h3>
 
 <form id="formOne">
-  <p>Open a browser and try to access google.com. What's the result?</p>
+  <p>Choose a value. For no reason.</p>
   <input id="349" type="radio" value="1" name="question1">
-  <label for="349">200 Success</label>
+  <label for="349">{{ username }}</label>
   <br>
   <input id="350" type="radio" value="2" name="question1">
-  <label for="350">400 Bad Request</label>
+  <label for="350">{{ first_name }}</label>
   <br>
   <input id="351" type="radio" value="3" name="question1" onchange="one_three_func()">
-  <label for="351">404 Not Found</label>
+  <label for="351">{{ last_name }}</label>
   <br>
   <input id="352" type="radio" value="4" name="question1" onchange="myFunction()">
-  <label for="352">408 Request Timed Out</label>
+  <label for="352">{{ email }}</label>
   <br>
 </form>
 

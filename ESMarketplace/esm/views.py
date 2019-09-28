@@ -57,7 +57,13 @@ def account(request):
     context = {'nbar': 'account'}
     return render(request, 'esm/account.html', context)
 
+
 def test(request):
-    dbobj = User.objects.all()
-    context = {'nbar': 'test', 'name': dbobj}
+    user = User.objects.get(pk=1)
+    username = user.username
+    first_name = user.first_name
+    last_name = user.last_name
+    email = user.email
+
+    context = {'nbar': 'test', 'username': username, 'first_name': first_name, 'last_name': last_name, 'email': email}
     return render(request, 'esm/test.html', context)
