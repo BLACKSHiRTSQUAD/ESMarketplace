@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>get_question</title>
+</head>
+<body>
+
+<form id={{ question.id }}>
+  <p> {{ question.qa_text }} </p>
+    {% for choice in choice_set %}
+  <input id={{ choice.id }} type="radio" value={{ choice.id }} name="question1">
+  <label for={{ choice.id }} >{{ choice.qa_text }}</label>
+  <br>
+    {% endfor %}
+</form>
+
+</body>
+</html>

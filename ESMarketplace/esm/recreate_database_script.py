@@ -18,27 +18,27 @@ except User.DoesNotExist:
     u.save()
 
     es = ExpertSystem(owner=u, title="Troubleshoot PC Internet Connectivity", cost=110.00)
+    es.save()
 
     esq1 = ESQuestion(es_id=es, qa_text="Try to access google.com. What's the response?")
+    esq1.save()
 
     esq2 = ESQuestion(prev_question_id=esq1, prev_choice_text="408 Request Timed Out",
                       qa_text="Can you ping 8.8.8.8?")
+    esq2.save()
 
     esq3 = ESQuestion(prev_question_id=esq1, prev_choice_text="400 Page Not Found",
                       qa_text="Are you sure you typed the URL correctly?")
+    esq3.save()
 
     esq4 = ESQuestion(prev_question_id=esq1, prev_choice_text="200 Successful",
                       qa_text="Done. You are connected to the internet.", leaf=True)
+    esq4.save()
 
     esq5 = ESQuestion(prev_question_id=esq2, prev_choice_text="Timed out.",
                       qa_text="Uh-oh. That's not good.")
-
-    es.save()
-    esq1.save()
-    esq2.save()
-    esq3.save()
-    esq4.save()
     esq5.save()
+
 
 
 

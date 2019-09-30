@@ -4,7 +4,9 @@ from django.urls import reverse
 from django.views import generic, View
 from django.utils import timezone
 from django.contrib.auth.models import User
-from django.contrib.auth import authenticate
+from django.contrib.auth import authenticate, logout
+
+from .models import ESQuestion, ExpertSystem
 
 # Create your views here.
 def home(request):
@@ -73,3 +75,10 @@ def test(request):
 
     context = {'nbar': 'test', 'username': username, 'first_name': first_name, 'last_name': last_name, 'email': email}
     return render(request, 'esm/test.html', context)
+
+def get_question(request):
+    question = ESQuestion.objects.get(pk=6)
+    choice_set = question.esquestion_set.all()
+
+    context = {'nbar': 'test', 'question': question, 'choice_set': choice_set}
+    return render(request, 'esm/get_question.html', context)
