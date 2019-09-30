@@ -5,7 +5,8 @@ from . import views
 app_name = 'esm'
 urlpatterns = [
     path('', views.home, name='home'),
-    path('login/', views.login, name='login'),
+    path('login/', views.user_login, name='login'),
+    path('logout/', views.user_logout, name='logout'),
     path('signup/', views.signup, name='signup'),
     path('create/', views.create, name='create'),
     path('store/', views.store, name='store'),

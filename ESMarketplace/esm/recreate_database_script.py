@@ -14,7 +14,7 @@ try:
 
 except User.DoesNotExist:
     print("EXCEPT")
-    u = User(username='juser', first_name='Jerry', last_name='Wdubs', email='jerry@example.com')
+    u = User.objects.create_user(username='juser', first_name='Jerry', last_name='Wdubs', email='jerry@example.com', password='password')
     u.save()
 
     es = ExpertSystem(owner=u, title="Troubleshoot PC Internet Connectivity", cost=110.00)

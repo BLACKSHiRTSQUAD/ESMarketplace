@@ -4,26 +4,35 @@ from django.urls import reverse
 from django.views import generic, View
 from django.utils import timezone
 from django.contrib.auth.models import User
-from django.contrib.auth import authenticate, logout
+from django.contrib.auth import authenticate, logout, login
 
 from .models import ESQuestion, ExpertSystem
 
 # Create your views here.
 def home(request):
-    context = {'nbar': 'home'}
-    return render(request, 'esm/home.html', context)
+    if request.user.is_authenticated:
+        context = {'nbar': 'home'}
+        return render(request, 'esm/home.html', context)
+    else:
+         return HttpResponseRedirect(reverse('esm:login'))
 
 
-def login(request):
+def user_login(request):
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
         user = authenticate(username=username, password=password)
         if user is not None:
+            login(request, user)
             return HttpResponseRedirect(reverse('esm:home'))
         else:
             return render(request, 'esm/login.html', {})
     return render(request, 'esm/login.html', {})
+
+
+def user_logout(request):
+    logout(request)
+    return HttpResponseRedirect(reverse('esm:home'))
 
 
 def signup(request):
