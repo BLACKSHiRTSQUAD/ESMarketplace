@@ -4,18 +4,24 @@
     <meta charset="UTF-8">
     <title>ESM - Create</title>
 
-{% load static %}
-<link rel="stylesheet" type="text/css" href="{% static 'esm/theme.css' %}">
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'esm/theme.css' %}">
 
 </head>
 <body>
 <div class="basic">
-{% include "esm/navbar.html" %}
+    {% include "esm/navbar.html" %}
 </div>
 
 <h1>Create</h1>
 
-<button>Button</button>
+{% for es in esystems %}
+
+<form action="/create/edit/{{ es.id }}">
+    <input type="submit" value="Go to ES {{ es.id }}" />
+</form>
+
+{% endfor %}
 
 </body>
 </html>

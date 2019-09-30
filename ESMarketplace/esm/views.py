@@ -41,13 +41,15 @@ def signup(request):
 
 
 def create(request):
-    context = {'nbar': 'create'}
+    esystems = ExpertSystem.objects.all()
+    context = {'nbar': 'create', 'esystems': esystems}
     return render(request, 'esm/create.html', context)
 
 
 def edit(request, es_id):
-
-    context = {'nbar': 'account', 'es_id': es_id}
+    es = ExpertSystem.objects.get(pk=es_id)
+    q = ESQuestion.objects.get(es_id=es)
+    context = {'nbar': 'create', 'es': es, 'question': q}
     return render(request, 'esm/edit.html', context)
 
 
@@ -76,8 +78,9 @@ def test(request):
     context = {'nbar': 'test', 'username': username, 'first_name': first_name, 'last_name': last_name, 'email': email}
     return render(request, 'esm/test.html', context)
 
-def get_question(request):
-    question = ESQuestion.objects.get(pk=6)
+
+def get_question(request, q_id):
+    question = ESQuestion.objects.get(pk=q_id)
     choice_set = question.esquestion_set.all()
 
     context = {'nbar': 'test', 'question': question, 'choice_set': choice_set}
