@@ -32,7 +32,9 @@ class ESQuestion(models.Model):
 
 
 class ESPurchased(models.Model):
+    # customer user
     user_id = models.ForeignKey(User, on_delete=models.PROTECT)
+    # link to seller through es_id
     es_id = models.ForeignKey(ExpertSystem, on_delete=models.PROTECT)
 
     def __str__(self):
