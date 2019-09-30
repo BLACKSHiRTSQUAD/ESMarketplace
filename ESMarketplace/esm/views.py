@@ -73,7 +73,8 @@ def purchased(request):
 
 
 def account(request):
-    context = {'nbar': 'account'}
+    user = request.user
+    context = {'nbar': 'account', 'user': user}
     return render(request, 'esm/account.html', context)
 
 

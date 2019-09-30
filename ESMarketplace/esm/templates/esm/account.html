@@ -10,11 +10,22 @@
 <link rel="stylesheet" type="text/css" href="{% static 'esm/theme.css' %}">
 
 <div class="basic">
-{% include "esm/navbar.html" %}
+    {% include "esm/navbar.html" %}
 </div>
 
 <h1>Account</h1>
 
+<div id="user_attributes" contenteditable="false">
+    <b>
+        <p>Username: {{ user.username }}</p>
+        <p>Password: {{ user.password }}</p>
+        <p>Email: {{ user.email }}</p>
+        <p>Fist Name: {{ user.first_name }}</p>
+        <p>Last Name: {{ user.last_name }}</p>
+    </b>
+</div>
+<br>
+<button onclick="getElementById('user_attributes').contentEditable='true'">Edit Fields</button>
 
 
 </body>
