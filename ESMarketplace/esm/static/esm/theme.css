@@ -5,6 +5,7 @@ li a {
 body {
     background: url("images/squirrelbackground.jpeg") no-repeat center center fixed;
   background-size: cover;
+font-family: "Comic Sans MS", cursive, sans-serif;
 }
 
 
@@ -17,6 +18,7 @@ img {
 .topnav {
   background-color: #333;
   overflow: hidden;
+
 }
 
 /* Style the links inside the navigation bar */
@@ -40,5 +42,7 @@ img {
   background-color: #4CAF50;
   color: white;
 }
+
+
 
 

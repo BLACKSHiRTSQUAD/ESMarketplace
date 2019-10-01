@@ -75,6 +75,12 @@ def purchased(request):
 def account(request):
     user = request.user
     context = {'nbar': 'account', 'user': user}
+    if request.method == 'POST':
+        user.username = request.POST['username']
+        user.first_name = request.POST['firstname']
+        user.last_name = request.POST['lastname']
+        user.email = request.POST['email']
+        user.save()
     return render(request, 'esm/account.html', context)
 
 

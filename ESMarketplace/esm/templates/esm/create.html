@@ -17,11 +17,19 @@
 
 {% for es in esystems %}
 
-<form action="/create/edit/{{ es.id }}">
+<form action="/create/edit/{{ es.id }}" method="post">
     <input type="submit" value="Go to ES {{ es.id }}" />
+    <b>{{ es.cost }}</b>
+    <b>{{ es.title }}</b>
 </form>
 
 {% endfor %}
+<br><br>
+<b>Create New ES</b>
+<form action="/create/new_es/">
+    Title: <input type="text" name="title"><br>
+    Cost: <input type="text" name="cost"><br>
+</form>
 
 </body>
 </html>

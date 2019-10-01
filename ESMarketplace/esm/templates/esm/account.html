@@ -15,17 +15,26 @@
 
 <h1>Account</h1>
 
-<div id="user_attributes" contenteditable="false">
+<form id="user_attributes" action="/account/" method="post">
+    {% csrf_token %}
     <b>
-        <p>Username: {{ user.username }}</p>
-        <p>Password: {{ user.password }}</p>
-        <p>Email: {{ user.email }}</p>
-        <p>Fist Name: {{ user.first_name }}</p>
-        <p>Last Name: {{ user.last_name }}</p>
+        Username: <input class='inputDisabled' name="username" type="text" name="username" value="{{ user.username }}" disabled="disabled"/><br>
+        Email: <input class='inputDisabled' name="email" type="text" value="{{ user.email }}" disabled/><br>
+        Fist Name: <input class='inputDisabled' name="firstname" type="text" value="{{ user.first_name }}" disabled/><br>
+        Last Name: <input class='inputDisabled' name="lastname" type="text" value="{{ user.last_name }}" disabled/><br><br>
+        <button id="edit" onclick="getElementById('username').disabled='enabled'">Edit Fields</button>
+        <input type="submit" value="Submit">
     </b>
-</div>
+</form>
 <br>
-<button onclick="getElementById('user_attributes').contentEditable='true'">Edit Fields</button>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script>
+    $("#edit").click(function(event){
+   event.preventDefault();
+   $('.inputDisabled').prop("disabled", false); // Element(s) are now enabled.
+});
+</script>
 
 
 </body>
