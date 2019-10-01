@@ -9,18 +9,21 @@
     {% endfor %}
 
 </form>
-<button>Confirm</button>
+<button id="init_button_id">Confirm</button>
 
-<div id="test123"></div>
+<div id="init_div_id"></div>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script>
     var _selectIndex = Math.floor(Math.random() * 10000);
-    var divIDEdit = document.getElementById("test123");
+    var divIDEdit = document.getElementById("init_div_id");
     divIDEdit.setAttribute("id", "id_"+_selectIndex);
 
+    var buttonIDEdit = document.getElementById("init_button_id");
+    buttonIDEdit.setAttribute("id", "id_"+_selectIndex);
+
     $(document).ready(function () {
-        $("button").click(function () {
+        $("#id_"+_selectIndex).click(function () {
             var id = document.querySelector('input[name="{{ question.id }}"]:checked').value;
             $("#id_"+ _selectIndex).load("/get_question/" + id);
         });
