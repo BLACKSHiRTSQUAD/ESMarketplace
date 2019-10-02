@@ -1,11 +1,9 @@
-
-
-<form id={{ question.id }}>
-  <p> {{ question.qa_text }} </p>
+<form id="form_id">
+    <p> {{ question.qa_text }} </p>
     {% for choice in choice_set %}
-  <input id={{ choice.id }} type="radio" value={{ choice.id }} name="{{ question.id }}">
-  <label for={{ choice.id }} >{{ choice.prev_choice_text }}</label>
-  <br>
+    <input id={{ choice.id }} type="radio" value={{ choice.id }} name="{{ question.id }}">
+    <label for={{ choice.id }}>{{ choice.prev_choice_text }}</label>
+    <br>
     {% endfor %}
 
 </form>
@@ -15,17 +13,18 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script>
-    var _selectIndex = Math.floor(Math.random() * 10000);
-    var divIDEdit = document.getElementById("init_div_id");
-    divIDEdit.setAttribute("id", "id_"+_selectIndex);
 
-    var buttonIDEdit = document.getElementById("init_button_id");
-    buttonIDEdit.setAttribute("id", "id_"+_selectIndex);
 
     $(document).ready(function () {
-        $("#id_"+_selectIndex).click(function () {
-            var id = document.querySelector('input[name="{{ question.id }}"]:checked').value;
-            $("#id_"+ _selectIndex).load("/get_question/" + id);
+        var _selectIndex = Math.floor(Math.random() * 1000000);
+        document.getElementById("init_div_id").setAttribute("id", "div_id_" + _selectIndex);
+        document.getElementById("init_button_id").setAttribute("id", "button_id_" + _selectIndex);
+        $("#button_id_" + _selectIndex).click(function () {
+            var next_question_id = document.querySelector('input[name="{{ question.id }}"]:checked').value;
+            /* $("#div_id_" + _selectIndex).load("/get_question/" + next_question_id); */
+            $.get("/get_question/" + next_question_id, function (data) {
+                $("#div_id_" + _selectIndex).html(data);
+            });
         });
     });
 </script>
