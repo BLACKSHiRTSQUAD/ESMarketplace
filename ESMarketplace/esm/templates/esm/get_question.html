@@ -21,7 +21,6 @@
         document.getElementById("init_button_id").setAttribute("id", "button_id_" + _selectIndex);
         $("#button_id_" + _selectIndex).click(function () {
             var next_question_id = document.querySelector('input[name="{{ question.id }}"]:checked').value;
-            /* $("#div_id_" + _selectIndex).load("/get_question/" + next_question_id); */
             $.get("/get_question/" + next_question_id, function (data) {
                 $("#div_id_" + _selectIndex).html(data);
             });

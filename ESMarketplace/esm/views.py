@@ -50,6 +50,14 @@ def signup(request):
 
 
 def create(request):
+    if request.method == 'POST':
+        title = request.POST['title']
+        cost = request.POST['cost']
+        es = ExpertSystem(title=title, cost=cost, owner=request.user)
+        es.save()
+        q = ESQuestion(es_id=es, qa_text='question title - edit this')
+        q.save()
+        return HttpResponseRedirect(reverse('esm:edit', kwargs={'es_id': es.pk}))
     esystems = ExpertSystem.objects.all()
     context = {'nbar': 'create', 'esystems': esystems}
     return render(request, 'esm/create.html', context)
