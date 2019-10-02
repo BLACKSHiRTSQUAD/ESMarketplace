@@ -5,11 +5,26 @@ from django.utils import timezone
 # Create your models here.
 
 
+class ESCategoryOne(models.Model):
+    category_title = models.TextField(max_length="40")
+
+
+class ESCategoryTwo(models.Model):
+    category_one_id = models.ForeignKey(ESCategoryOne, on_delete=models.PROTECT)
+    category_title = models.TextField(max_length="40")
+
+
+class ESCategoryThree(models.Model):
+    category_two_id = models.ForeignKey(ESCategoryTwo, on_delete=models.PROTECT)
+    category_title = models.TextField(max_length="40")
+
+
 class ExpertSystem(models.Model):
     owner = models.ForeignKey(User, on_delete=models.PROTECT)
     title = models.CharField(max_length=80)
     create_date = models.DateTimeField('date created', default=timezone.now)
     cost = models.DecimalField(max_digits=7, decimal_places=2)
+    category_id = models.ForeignKey(ESCategoryThree, on_delete=models.PROTECT)
 
     def __str__(self):
         return self.title
@@ -39,4 +54,5 @@ class ESPurchased(models.Model):
 
     def __str__(self):
         return self.user_id
+
 

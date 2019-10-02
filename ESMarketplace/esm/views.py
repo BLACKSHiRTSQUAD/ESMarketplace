@@ -108,4 +108,4 @@ def get_question(request, q_id):
     choice_set = question.esquestion_set.all()
 
     context = {'nbar': 'test', 'question': question, 'choice_set': choice_set}
-    return render(request, 'esm/get_question.html', context)
+    return render(request, 'esm/get_question_edit.html', context)

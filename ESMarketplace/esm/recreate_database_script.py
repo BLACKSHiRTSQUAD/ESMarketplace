@@ -4,7 +4,7 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "ESMarketplace.ESMarketplace.set
 import django
 django.setup()
 
-from esm.models import ExpertSystem, ESQuestion, ESPurchased
+from esm.models import ExpertSystem, ESQuestion, ESPurchased, ESCategoryOne, ESCategoryTwo, ESCategoryThree
 from django.contrib.auth.models import User
 
 
@@ -22,10 +22,30 @@ except User.DoesNotExist:
                                   password='password')
     u2.save()
     ##########################################################
-    es = ExpertSystem(owner=u, title="Troubleshoot PC Internet Connectivity", cost=110.00)
+    esc1 = ESCategoryOne(category_title="Math")
+    esc1.save()
+    esc2 = ESCategoryOne(category_title="IT")
+    esc2.save()
+
+    esc3 = ESCategoryTwo(category_title="Numbers", category_one_id=esc1)
+    esc3.save()
+    esc4 = ESCategoryTwo(category_title="PC", category_one_id=esc2)
+    esc4.save()
+    esc5 = ESCategoryTwo(category_title="Networking", category_one_id=esc2)
+    esc5.save()
+
+    esc6 = ESCategoryThree(category_title="Counting", category_two_id=esc3)
+    esc6.save()
+    esc7 = ESCategoryThree(category_title="PC Networking", category_two_id=esc4)
+    esc7.save()
+    esc8 = ESCategoryThree(category_title="Cisco ASA", category_two_id=esc5)
+    esc8.save()
+
+    ##########################################################
+    es = ExpertSystem(owner=u, title="Troubleshoot PC Internet Connectivity", cost=110.00, category_id=esc7)
     es.save()
 
-    es2 = ExpertSystem(owner=u, title="Guess Your Number, 1 to 100", cost=9999.00)
+    es2 = ExpertSystem(owner=u, title="Guess Your Number, 1 to 100", cost=9999.00, category_id=esc6)
     es2.save()
 
     ##########################################################

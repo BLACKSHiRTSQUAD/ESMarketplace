@@ -1,0 +1,29 @@
+<form id="form_id">
+    <p> {{ question.qa_text }} </p>
+    {% for choice in choice_set %}
+    <input id={{ choice.id }} type="radio" value={{ choice.id }} name="{{ question.id }}">
+    <label for={{ choice.id }}>{{ choice.prev_choice_text }}</label>
+    <br>
+    {% endfor %}
+
+</form>
+<button id="init_button_id">Confirm</button>
+
+<div id="init_div_id"></div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script>
+
+
+    $(document).ready(function () {
+        var _selectIndex = Math.floor(Math.random() * 1000000);
+        document.getElementById("init_div_id").setAttribute("id", "div_id_" + _selectIndex);
+        document.getElementById("init_button_id").setAttribute("id", "button_id_" + _selectIndex);
+        $("#button_id_" + _selectIndex).click(function () {
+            var next_question_id = document.querySelector('input[name="{{ question.id }}"]:checked').value;
+            $.get("/get_question/" + next_question_id, function (data) {
+                $("#div_id_" + _selectIndex).html(data);
+            });
+        });
+    });
+</script>
