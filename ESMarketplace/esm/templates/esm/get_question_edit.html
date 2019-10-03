@@ -44,8 +44,7 @@
         document.getElementById("init_edit_id").setAttribute("id", edit_id);
         document.getElementById("init_cancel_id").setAttribute("id", cancel_id);
         document.getElementById("init_form_id").setAttribute("id", form_id);
-        document.getElementsByClassName("init_inputDisabled_class").setAttribute("class", inputDisabled_class);
-
+        $(".init_inputDisabled_class").attr("class", inputDisabled_class);
 
 
         // This is the "Confirm Selection" button
@@ -57,49 +56,42 @@
         });
 
 
-
-
-
-
-        $("#edit_button").click(function (event) {
+        $("#" + edit_id).click(function (event) {
             event.preventDefault();
-            $('.inputDisabled').prop("disabled", false); // Element(s) are now enabled.
-            $('#edit_button').prop("hidden", true)
-            $('#cancel_button').prop("hidden", false)
-            $('#save_button').prop("hidden", false)
+            $('.' + inputDisabled_class).prop("disabled", false); // Element(s) are now enabled.
+            $('#' + edit_id).prop("hidden", true);
+            $('#' + cancel_id).prop("hidden", false);
+            $('#' + save_id).prop("hidden", false)
         });
 
 
-
-        $("#cancel_button").click(function (event) {
+        $("#" + cancel_id).click(function (event) {
             event.preventDefault();
-            $('.inputDisabled').prop("disabled", true); // Element(s) are now enabled.
-            $('#edit_button').prop("hidden", false)
-            $('#cancel_button').prop("hidden", true)
-            $('#save_button').prop("hidden", true)
+            $('.' + inputDisabled_class).prop("disabled", true); // Element(s) are now enabled.
+            $('#' + edit_id).prop("hidden", false);
+            $('#' + cancel_id).prop("hidden", true);
+            $('#' + save_id).prop("hidden", true)
         });
 
 
-        $("#save_button").click(function (event) {
+        $("#" + save_id).click(function (event) {
             event.preventDefault();
-           // $('#form_id[name="question_text_form"]').submit();  --- jerrys code
+            // $('#form_id[name="question_text_form"]').submit();  --- jerrys code
             //var keyVal = $('#form_id').serialize();
             //var val = $('input[name="question_text_form").val();)
-           // $.ajax();
+            // $.ajax();
 
             console.log(_selectIndex);
-            var data = $('#form_id').serialize();
-            console.log(data);
             var data = {};
-            $('#form_id').find('input[type=text]').each(function(i, v){
-                data[ $(this).attr('name')  ] = $(this).val()
-            })
+            $('#' + form_id).find('input[type=text]').each(function (i, v) {
+                data[$(this).attr('name')] = $(this).val()
+            });
             console.log(data)
 
-            $('.inputDisabled').prop("disabled", true); // Element(s) are now enabled.
-            $('#edit_button').prop("hidden", false)
-            $('#cancel_button').prop("hidden", true)
-            $('#save_button').prop("hidden", true)
+            $('.' + inputDisabled_class).prop("disabled", true); // Element(s) are now enabled.
+            $('#' + edit_id).prop("hidden", false);
+            $('#' + cancel_id).prop("hidden", true);
+            $('#' + save_id).prop("hidden", true)
         });
     });
 </script>
