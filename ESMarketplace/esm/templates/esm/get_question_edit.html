@@ -4,7 +4,7 @@
     <input id={{ choice.id }} type="radio" value={{ choice.id }} name="{{ question.id }}">
     <label for={{ choice.id }} type="text" contenteditable="true"><input class="init_inputDisabled_class" type="text"
                                                                          value="{{ choice.prev_choice_text }}"
-                                                                         name="question_text_form" disabled></label>
+                                                                         name={{ forloop.counter }} disabled></label>
     <br>
     {% endfor %}
 
@@ -82,11 +82,11 @@
             // $.ajax();
 
             console.log(_selectIndex);
-            var data = {};
+            var data = [];
             $('#' + form_id).find('input[type=text]').each(function (i, v) {
                 data[$(this).attr('name')] = $(this).val()
             });
-            console.log(data)
+            console.log(data);
 
             $('.' + inputDisabled_class).prop("disabled", true); // Element(s) are now enabled.
             $('#' + edit_id).prop("hidden", false);
