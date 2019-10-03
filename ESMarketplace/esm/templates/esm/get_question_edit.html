@@ -2,12 +2,14 @@
     <p> {{ question.qa_text }} </p>
     {% for choice in choice_set %}
     <input id={{ choice.id }} type="radio" value={{ choice.id }} name="{{ question.id }}">
-    <label for={{ choice.id }}>{{ choice.prev_choice_text }}</label>
+    <label for={{ choice.id }} type="text" contenteditable="true"><input class="inputDisabled" type="text"
+                                                                         value="{{ choice.prev_choice_text }}" disabled></label>
     <br>
     {% endfor %}
 
 </form>
 <button id="init_button_id">Confirm</button>
+<button id="edit">Edit Question</button>
 
 <div id="init_div_id"></div>
 
@@ -25,5 +27,10 @@
                 $("#div_id_" + _selectIndex).html(data);
             });
         });
+    });
+
+    $("#edit").click(function (event) {
+        event.preventDefault();
+        $('.inputDisabled').prop("disabled", false); // Element(s) are now enabled.
     });
 </script>

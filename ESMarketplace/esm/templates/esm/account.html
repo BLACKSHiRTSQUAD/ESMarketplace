@@ -22,7 +22,7 @@
         Email: <input class='inputDisabled' name="email" type="text" value="{{ user.email }}" disabled/><br>
         Fist Name: <input class='inputDisabled' name="firstname" type="text" value="{{ user.first_name }}" disabled/><br>
         Last Name: <input class='inputDisabled' name="lastname" type="text" value="{{ user.last_name }}" disabled/><br><br>
-        <button id="edit" onclick="getElementById('username').disabled='enabled'">Edit Fields</button>
+        <button id="edit">Edit Fields</button>
         <input type="submit" value="Submit">
     </b>
 </form>
@@ -30,6 +30,7 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script>
+
     $("#edit").click(function(event){
    event.preventDefault();
    $('.inputDisabled').prop("disabled", false); // Element(s) are now enabled.
