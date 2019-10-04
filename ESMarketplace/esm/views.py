@@ -69,12 +69,13 @@ def edit(request, es_id):
     context = {'nbar': 'create', 'es': es, 'question': q}
     return render(request, 'esm/edit.html', context)
 
+
 def save_question(request, q_id):
-    assert request.method == 'post'
+    assert request.method == 'POST'
     q = ESQuestion.objects.get(id=q_id)
-    choices = q.choice_set.all()
+    choices = q.esquestion_set.all()
     context = {'nbar': 'create', 'question': q}
-    return render(request, 'esm/edit.html', context)
+    return HttpResponse(status=200)
 
 
 def store(request):

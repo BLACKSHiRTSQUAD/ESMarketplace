@@ -73,26 +73,33 @@
             $('#' + save_id).prop("hidden", true)
         });
 
-
+        // Save data from form and post to server with ajax
         $("#" + save_id).click(function (event) {
             event.preventDefault();
-            // $('#form_id[name="question_text_form"]').submit();  --- jerrys code
-            //var keyVal = $('#form_id').serialize();
-            //var val = $('input[name="question_text_form").val();)
-            // $.ajax();
-
             console.log(_selectIndex);
             var data = [];
             $('#' + form_id).find('input[type=text]').each(function (i, v) {
-                data[$(this).attr('name')] = $(this).val()
+                data.push($(this).val())
             });
-            console.log(data);
-            // $.post()
-
-            $('.' + inputDisabled_class).prop("disabled", true); // Element(s) are now enabled.
-            $('#' + edit_id).prop("hidden", false);
-            $('#' + cancel_id).prop("hidden", true);
-            $('#' + save_id).prop("hidden", true)
+        console.log(data);
+        $.ajax({
+            url: "/create/edit/save_question/{{ question.id }}/",
+            method: "POST",
+            headers: {'X-CSRFToken': '{{ csrf_token }}'},
+            data: data,
+            dataType: "json"
+        }).done(function (response) {
+            console.log(response.id + " " + response.name);
+        }).fail(function (error) {
+            console.log(error);
         });
+
+
+        $('.' + inputDisabled_class).prop("disabled", true); // Element(s) are now enabled.
+        $('#' + edit_id).prop("hidden", false);
+        $('#' + cancel_id).prop("hidden", true);
+        $('#' + save_id).prop("hidden", true)
     });
+    })
+    ;
 </script>

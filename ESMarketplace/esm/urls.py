@@ -13,9 +13,9 @@ urlpatterns = [
     path('purchased/', views.purchased, name='purchased'),
     path('account/', views.account, name='account'),
     path('test/', views.test, name='test'),
-    path('get_question/<int:q_id>', views.get_question, name='get_question'),
-    path('create/edit/<int:es_id>', views.edit, name='edit'),
-    path('/create/edit/save_question/<int:q_id>', views.save_question, name='save_question')
+    path('get_question/<int:q_id>/', views.get_question, name='get_question'),
+    path('create/edit/<int:es_id>/', views.edit, name='edit'),
+    path('create/edit/save_question/<int:q_id>/', views.save_question, name='save_question')
 
 
 ]
