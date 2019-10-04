@@ -69,6 +69,13 @@ def edit(request, es_id):
     context = {'nbar': 'create', 'es': es, 'question': q}
     return render(request, 'esm/edit.html', context)
 
+def save_question(request, q_id):
+    assert request.method == 'post'
+    q = ESQuestion.objects.get(id=q_id)
+    choices = q.choice_set.all()
+    context = {'nbar': 'create', 'question': q}
+    return render(request, 'esm/edit.html', context)
+
 
 def store(request):
     context = {'nbar': 'store'}

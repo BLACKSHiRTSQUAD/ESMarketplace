@@ -1,4 +1,4 @@
-<form id="init_form_id" action="/create/edit/savequestionform" method="post">
+<form id="init_form_id" action="/create/edit/save_question/{{ question.id }}" method="post">
     <p> {{ question.qa_text }} </p>
     {% for choice in choice_set %}
     <input id={{ choice.id }} type="radio" value={{ choice.id }} name="{{ question.id }}">
@@ -87,6 +87,7 @@
                 data[$(this).attr('name')] = $(this).val()
             });
             console.log(data);
+            // $.post()
 
             $('.' + inputDisabled_class).prop("disabled", true); // Element(s) are now enabled.
             $('#' + edit_id).prop("hidden", false);
