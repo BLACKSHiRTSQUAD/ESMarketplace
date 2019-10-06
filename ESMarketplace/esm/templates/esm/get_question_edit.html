@@ -77,16 +77,16 @@
         $("#" + save_id).click(function (event) {
             event.preventDefault();
             console.log(_selectIndex);
-            var data = [];
+            var json_obj = {'data': []};
             $('#' + form_id).find('input[type=text]').each(function (i, v) {
-                data.push($(this).val())
+                json_obj['data'].push($(this).val())
             });
-        console.log(data);
+        console.log(json_obj['data']);
         $.ajax({
             url: "/create/edit/save_question/{{ question.id }}/",
             method: "POST",
             headers: {'X-CSRFToken': '{{ csrf_token }}'},
-            data: data,
+            data: json_obj,
             dataType: "json"
         }).done(function (response) {
             console.log(response.id + " " + response.name);

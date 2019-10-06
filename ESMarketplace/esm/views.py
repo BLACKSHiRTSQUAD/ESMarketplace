@@ -72,8 +72,15 @@ def edit(request, es_id):
 
 def save_question(request, q_id):
     assert request.method == 'POST'
+    post_data = request.POST.getlist('data[]')
+
     q = ESQuestion.objects.get(id=q_id)
     choices = q.esquestion_set.all()
+    for i in range(len(choices)):
+        if choices[i].prev_choice_text != post_data[i]:
+            choice = choices[i]
+            choice.prev_choice_text = post_data[i]
+            choice.save()
     context = {'nbar': 'create', 'question': q}
     return HttpResponse(status=200)
 
