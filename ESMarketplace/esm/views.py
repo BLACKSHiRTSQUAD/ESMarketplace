@@ -6,7 +6,8 @@ from django.utils import timezone
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, logout, login
 
-from .models import ESQuestion, ExpertSystem
+from .models import *
+from .forms import *
 
 # Create your views here.
 def home(request):
@@ -97,7 +98,10 @@ def purchased(request):
 
 def account(request):
     user = request.user
-    context = {'nbar': 'account', 'user': user}
+    u_form = AccountForm(instance=user)
+    for field in u_form:
+        field.disabled = True
+    context = {'nbar': 'account', 'user': user, 'u_form': u_form}
     if request.method == 'POST':
         user.username = request.POST['username']
         user.first_name = request.POST['firstname']
@@ -115,7 +119,7 @@ def test(request):
     email = user.email
 
     context = {'nbar': 'test', 'username': username, 'first_name': first_name, 'last_name': last_name, 'email': email}
-    return render(request, 'esm/test.html', context)
+    return render(request, 'esm/w3css_template.html', context)
 
 
 def get_question(request, q_id):
