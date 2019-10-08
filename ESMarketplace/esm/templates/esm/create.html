@@ -16,23 +16,23 @@
 <h1>Create</h1>
 
 {% for es in esystems %}
-
 <form action="/create/edit/{{ es.id }}" method="get">
-    <input type="submit" value="Go to ES {{ es.id }}" />
+    <input type="submit" value="Go to ES {{ es.id }}"/>
     <b>{{ es.cost }}</b>
     <b>{{ es.title }}</b>
     <b>{{ es.category_id }}</b>
 </form>
-
 {% endfor %}
+
 <br><br><br>
-<b>Create New ES</b>
+<b>Create New ES
 <form action="/create/" method="post">
     {% csrf_token %}
-    Title: <input type="text" name="title"><br>
-    Cost: <input type="text" name="cost"><br><br>
+    {% for field in create_es_form %}
+        {{ field.label }} {{ field }}<br>
+    {% endfor %}
     <input type="submit" value="Create ES">
-</form>
+</form></b>
 
 </body>
 </html>

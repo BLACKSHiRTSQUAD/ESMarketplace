@@ -15,45 +15,26 @@
 
 <h1>Account</h1>
 
-<form id="user_attributes2" action="/account/" method="post">
+<form id="user_attributes" action="/account/" method="post">
     {% csrf_token %}
     <b>
         {% for field in u_form %}
         {{ field }}<br>
         {% endfor %}
-        <button id="edit2">Edit Fields</button>
-        <input type="submit" value="Submit">
-    </b>
-</form>
-<p>##################################</p>
-<form id="user_attributes" action="/account/" method="post">
-    {% csrf_token %}
-    <b>
-        Username: <input class='inputDisabled' name="username" type="text" name="username" value="{{ user.username }}"
-                         disabled="disabled"/><br>
-        Email: <input class='inputDisabled' name="email" type="text" value="{{ user.email }}" disabled/><br>
-        Fist Name: <input class='inputDisabled' name="firstname" type="text" value="{{ user.first_name }}"
-                          disabled/><br>
-        Last Name: <input class='inputDisabled' name="lastname" type="text" value="{{ user.last_name }}"
-                          disabled/><br><br>
         <button id="edit">Edit Fields</button>
         <input type="submit" value="Submit">
     </b>
 </form>
-<br>
+
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script>
 
     $("#edit").click(function (event) {
         event.preventDefault();
-        $('.inputDisabled').prop("disabled", false); // Element(s) are now enabled.
-    });
-
-    $("#edit2").click(function (event) {
-        event.preventDefault();
         $('.myCustomClass').prop("disabled", false); // Element(s) are now enabled.
     });
+
 </script>
 
 

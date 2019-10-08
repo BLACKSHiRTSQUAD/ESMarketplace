@@ -45,22 +45,18 @@ def signup(request):
         email = request.POST['email']
         user = User.objects.create_user(username, email, password, first_name=firstname, last_name=lastname)
         user.save()
-        print(user)
         return HttpResponseRedirect(reverse('esm:login'))
     return render(request, 'esm/signup.html', {})
 
 
 def create(request):
-    if request.method == 'POST':
-        title = request.POST['title']
-        cost = request.POST['cost']
-        es = ExpertSystem(title=title, cost=cost, owner=request.user)
-        es.save()
-        q = ESQuestion(es_id=es, qa_text='question title - edit this')
-        q.save()
-        return HttpResponseRedirect(reverse('esm:edit', kwargs={'es_id': es.pk}))
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect(reverse('esm:login'))
+    create_es_form = CreateESForm(request.POST or None)
+    if create_es_form.is_valid():
+        create_es_form.save()
     esystems = ExpertSystem.objects.all()
-    context = {'nbar': 'create', 'esystems': esystems}
+    context = {'nbar': 'create', 'esystems': esystems, 'create_es_form': create_es_form}
     return render(request, 'esm/create.html', context)
 
 
@@ -98,16 +94,13 @@ def purchased(request):
 
 def account(request):
     user = request.user
-    u_form = AccountForm(instance=user)
-    for field in u_form:
-        field.disabled = True
-    context = {'nbar': 'account', 'user': user, 'u_form': u_form}
     if request.method == 'POST':
-        user.username = request.POST['username']
-        user.first_name = request.POST['firstname']
-        user.last_name = request.POST['lastname']
-        user.email = request.POST['email']
-        user.save()
+        u_form = AccountForm(request.POST, instance=user)
+        if u_form.is_valid():
+            u_form.save()
+    else:
+        u_form = AccountForm(instance=user)
+    context = {'nbar': 'account', 'user': user, 'u_form': u_form}
     return render(request, 'esm/account.html', context)
 
 
@@ -123,8 +116,11 @@ def test(request):
 
 
 def get_question(request, q_id):
+    # old
     question = ESQuestion.objects.get(pk=q_id)
     choice_set = question.esquestion_set.all()
+    # new
+    choices_form = QuestionChoicesForm(instance=question)
 
     context = {'nbar': 'test', 'question': question, 'choice_set': choice_set}
     return render(request, 'esm/get_question_edit.html', context)

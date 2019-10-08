@@ -1,3 +1,5 @@
+
+<!--
 <form id="init_form_id" action="/create/edit/save_question/{{ question.id }}" method="post">
     <p> {{ question.qa_text }} </p>
     {% for choice in choice_set %}
@@ -6,6 +8,20 @@
                                                                          value="{{ choice.prev_choice_text }}"
                                                                          name={{ forloop.counter }} disabled></label>
     <br>
+    {% endfor %}
+
+    <button id="init_edit_id">Edit Question</button>
+    <button id="init_cancel_id" hidden="hidden">Cancel</button>
+    <button id="init_save_id" hidden="hidden">Save</button>
+    <br><br>
+
+</form>
+-->
+<!-- test form with django modelform -->
+<form id="init_form_id" action="/create/edit/save_question/{{ question.id }}" method="post">
+    <p> {{ question.qa_text }} </p>
+    {% for field in choice_form %}
+        {{ field }}<br>
     {% endfor %}
 
     <button id="init_edit_id">Edit Question</button>
