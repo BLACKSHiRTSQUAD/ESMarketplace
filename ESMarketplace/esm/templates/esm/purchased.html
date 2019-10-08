@@ -15,6 +15,14 @@
 
 <h1>Purchased</h1>
 
+{% for es in es_purchased %}
+<form action="/purchased/{{ es.id }}" method="get">
+    <input type="submit" value="Go to ES {{ es.id }}"/>
+    <b>{{ es.es_id }}</b>
+</form>
+{% empty %}
+Sorry, none exist.
+{% endfor %}
 
 
 </body>

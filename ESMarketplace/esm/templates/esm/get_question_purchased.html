@@ -1,29 +1,49 @@
-<form id="form_id">
+
+
+<form id="init_form_id" action="/create/edit/save_question/{{ question.id }}" method="post">
     <p> {{ question.qa_text }} </p>
     {% for choice in choice_set %}
     <input id={{ choice.id }} type="radio" value={{ choice.id }} name="{{ question.id }}">
-    <label for={{ choice.id }}>{{ choice.prev_choice_text }}</label>
+    <label for={{ choice.id }} type="text" contenteditable="true">{{ choice.prev_choice_text }}</label>
     <br>
     {% endfor %}
 
 </form>
-<button id="init_button_id">Confirm</button>
 
-<div id="init_div_id"></div>
+
+
+<!-- Below id's change with jquery. -->
+<button id="init_confirm_select_id">Confirm Selection</button>
+<div id="init_new_qa_div_id"></div>
+<!-- --- -->
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script>
 
 
     $(document).ready(function () {
+        // sets the id's with a unique number
+        // the _selectIndex var must remain local to the document ready function, so new ajax calls don't overwrite old id's
         var _selectIndex = Math.floor(Math.random() * 1000000);
-        document.getElementById("init_div_id").setAttribute("id", "div_id_" + _selectIndex);
-        document.getElementById("init_button_id").setAttribute("id", "button_id_" + _selectIndex);
-        $("#button_id_" + _selectIndex).click(function () {
+
+        var new_qa_div_id = "new_qa_div_id_" + _selectIndex;
+        var confirm_select_id = "confirm_select_id_" + _selectIndex;
+        var form_id = "form_id_" + _selectIndex;
+
+        document.getElementById("init_new_qa_div_id").setAttribute("id", new_qa_div_id);
+        document.getElementById("init_confirm_select_id").setAttribute("id", confirm_select_id);
+        document.getElementById("init_form_id").setAttribute("id", form_id);
+
+
+        // This is the "Confirm Selection" button
+        $("#" + confirm_select_id).click(function () {
             var next_question_id = document.querySelector('input[name="{{ question.id }}"]:checked').value;
-            $.get("/get_question/" + next_question_id, function (data) {
-                $("#div_id_" + _selectIndex).html(data);
+            $.get("/get_question_purchased/" + next_question_id, function (data) {
+                $("#" + new_qa_div_id).html(data);
             });
         });
     });
+
+
+
 </script>

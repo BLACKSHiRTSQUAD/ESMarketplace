@@ -84,12 +84,27 @@ def save_question(request, q_id):
 
 def store(request):
     context = {'nbar': 'store'}
-    return render(request, 'esm/edit.html', context)
+    return render(request, 'esm/store.html', context)
 
 
 def purchased(request):
-    context = {'nbar': 'purchased'}
+    es_purchased = ESPurchased.objects.filter(user_id=request.user)
+    context = {'nbar': 'purchased', 'es_purchased': es_purchased}
     return render(request, 'esm/purchased.html', context)
+
+
+def view_purchased_es(request, es_id):
+    es = ExpertSystem.objects.get(pk=es_id)
+    q = ESQuestion.objects.get(es_id=es)
+    context = {'nbar': 'create', 'es': es, 'question': q}
+    return render(request, 'esm/view_purchased_es.html', context)
+
+
+def get_question_purchased(request, q_id):
+    question = ESQuestion.objects.get(pk=q_id)
+    choice_set = question.esquestion_set.all()
+    context = {'nbar': 'test', 'question': question, 'choice_set': choice_set}
+    return render(request, 'esm/get_question_purchased.html', context)
 
 
 def account(request):

@@ -1,29 +1,108 @@
-<form id="form_id">
+
+
+<form id="init_form_id" action="/create/edit/save_question/{{ question.id }}" method="post">
     <p> {{ question.qa_text }} </p>
     {% for choice in choice_set %}
     <input id={{ choice.id }} type="radio" value={{ choice.id }} name="{{ question.id }}">
-    <label for={{ choice.id }}>{{ choice.prev_choice_text }}</label>
+    <label for={{ choice.id }} type="text" contenteditable="true"><input class="init_inputDisabled_class" type="text"
+                                                                         value="{{ choice.prev_choice_text }}"
+                                                                         name={{ forloop.counter }} disabled></label>
     <br>
     {% endfor %}
 
-</form>
-<button id="init_button_id">Confirm</button>
+    <button id="init_edit_id">Edit Question</button>
+    <button id="init_cancel_id" hidden="hidden">Cancel</button>
+    <button id="init_save_id" hidden="hidden">Save</button>
+    <br><br>
 
-<div id="init_div_id"></div>
+</form>
+
+
+
+<!-- Below id's change with jquery. -->
+<button id="init_confirm_select_id">Confirm Selection</button>
+<div id="init_new_qa_div_id"></div>
+<!-- --- -->
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script>
 
 
     $(document).ready(function () {
+        // sets the id's with a unique number
+        // the _selectIndex var must remain local to the document ready function, so new ajax calls don't overwrite old id's
         var _selectIndex = Math.floor(Math.random() * 1000000);
-        document.getElementById("init_div_id").setAttribute("id", "div_id_" + _selectIndex);
-        document.getElementById("init_button_id").setAttribute("id", "button_id_" + _selectIndex);
-        $("#button_id_" + _selectIndex).click(function () {
+
+        var new_qa_div_id = "new_qa_div_id_" + _selectIndex;
+        var confirm_select_id = "confirm_select_id_" + _selectIndex;
+        var save_id = "save_id_" + _selectIndex;
+        var edit_id = "edit_id_" + _selectIndex;
+        var cancel_id = "cancel_id_" + _selectIndex;
+        var form_id = "form_id_" + _selectIndex;
+        var inputDisabled_class = "inputDisabled_class_" + _selectIndex;
+
+        document.getElementById("init_new_qa_div_id").setAttribute("id", new_qa_div_id);
+        document.getElementById("init_confirm_select_id").setAttribute("id", confirm_select_id);
+        document.getElementById("init_save_id").setAttribute("id", save_id);
+        document.getElementById("init_edit_id").setAttribute("id", edit_id);
+        document.getElementById("init_cancel_id").setAttribute("id", cancel_id);
+        document.getElementById("init_form_id").setAttribute("id", form_id);
+        $(".init_inputDisabled_class").attr("class", inputDisabled_class);
+
+
+        // This is the "Confirm Selection" button
+        $("#" + confirm_select_id).click(function () {
             var next_question_id = document.querySelector('input[name="{{ question.id }}"]:checked').value;
-            $.get("/get_question/" + next_question_id, function (data) {
-                $("#div_id_" + _selectIndex).html(data);
+            $.get("/get_question_store/" + next_question_id, function (data) {
+                $("#" + new_qa_div_id).html(data);
             });
         });
+
+
+        $("#" + edit_id).click(function (event) {
+            event.preventDefault();
+            $('.' + inputDisabled_class).prop("disabled", false); // Element(s) are now enabled.
+            $('#' + edit_id).prop("hidden", true);
+            $('#' + cancel_id).prop("hidden", false);
+            $('#' + save_id).prop("hidden", false)
+        });
+
+
+        $("#" + cancel_id).click(function (event) {
+            event.preventDefault();
+            $('.' + inputDisabled_class).prop("disabled", true); // Element(s) are now enabled.
+            $('#' + edit_id).prop("hidden", false);
+            $('#' + cancel_id).prop("hidden", true);
+            $('#' + save_id).prop("hidden", true)
+        });
+
+        // Save data from form and post to server with ajax
+        $("#" + save_id).click(function (event) {
+            event.preventDefault();
+            console.log(_selectIndex);
+            var json_obj = {'data': []};
+            $('#' + form_id).find('input[type=text]').each(function (i, v) {
+                json_obj['data'].push($(this).val())
+            });
+        console.log(json_obj['data']);
+        $.ajax({
+            url: "/create/edit/save_question/{{ question.id }}/",
+            method: "POST",
+            headers: {'X-CSRFToken': '{{ csrf_token }}'},
+            data: json_obj,
+            dataType: "json"
+        }).done(function (response) {
+            console.log(response.id + " " + response.name);
+        }).fail(function (error) {
+            console.log(error);
+        });
+
+
+        $('.' + inputDisabled_class).prop("disabled", true); // Element(s) are now enabled.
+        $('#' + edit_id).prop("hidden", false);
+        $('#' + cancel_id).prop("hidden", true);
+        $('#' + save_id).prop("hidden", true)
     });
+    })
+    ;
 </script>
