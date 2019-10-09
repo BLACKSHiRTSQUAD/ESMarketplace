@@ -67,6 +67,12 @@ def edit(request, es_id):
     return render(request, 'esm/edit.html', context)
 
 
+def get_question(request, q_id):
+    question = ESQuestion.objects.get(pk=q_id)
+    choice_set = question.esquestion_set.all()
+    context = {'nbar': 'test', 'question': question, 'choice_set': choice_set}
+    return render(request, 'esm/get_question_edit.html', context)
+
 def save_question(request, q_id):
     assert request.method == 'POST'
     post_data = request.POST.getlist('data[]')
@@ -130,12 +136,3 @@ def test(request):
     return render(request, 'esm/w3css_template.html', context)
 
 
-def get_question(request, q_id):
-    # old
-    question = ESQuestion.objects.get(pk=q_id)
-    choice_set = question.esquestion_set.all()
-    # new
-    choices_form = QuestionChoicesForm(instance=question)
-
-    context = {'nbar': 'test', 'question': question, 'choice_set': choice_set}
-    return render(request, 'esm/get_question_edit.html', context)

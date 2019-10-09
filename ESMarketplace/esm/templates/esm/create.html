@@ -26,13 +26,21 @@
 
 <br><br><br>
 <b>Create New ES
-<form action="/create/" method="post">
-    {% csrf_token %}
-    {% for field in create_es_form %}
+    <form action="/create/" method="post">
+        {% csrf_token %}
+        {% for field in create_es_form %}
         {{ field.label }} {{ field }}<br>
-    {% endfor %}
-    <input type="submit" value="Create ES">
-</form></b>
+        {% endfor %}
+        <br>
+        <select>
+          <option value="Programming">Volvo</option>
+          <option value="Systems">Saab</option>
+          <option value="Networking">Mercedes</option>
+          <option value="Other">Audi</option>
+        </select>
+        <input type="submit" value="Create ES">
+    </form>
+</b>
 
 </body>
 </html>

@@ -34,12 +34,14 @@ except User.DoesNotExist:
     esc5 = ESCategoryTwo(category_title="Networking", category_one_id=esc2)
     esc5.save()
 
-    esc6 = ESCategoryThree(category_title="Counting", category_two_id=esc3)
+    esc6 = ESCategoryThree(category_title="Other", category_two_id=esc3)
     esc6.save()
-    esc7 = ESCategoryThree(category_title="PC Networking", category_two_id=esc4)
+    esc7 = ESCategoryThree(category_title="Networking", category_two_id=esc4)
     esc7.save()
-    esc8 = ESCategoryThree(category_title="Cisco ASA", category_two_id=esc5)
+    esc8 = ESCategoryThree(category_title="Systems", category_two_id=esc5)
     esc8.save()
+    esc9 = ESCategoryThree(category_title="Programming", category_two_id=esc5)
+    esc9.save()
 
     ##########################################################
     es = ExpertSystem(owner=u, title="Troubleshoot PC Internet Connectivity", cost=110.00, category_id=esc7)

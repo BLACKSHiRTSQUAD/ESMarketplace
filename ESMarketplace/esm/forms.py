@@ -4,18 +4,6 @@ from django.contrib.auth.models import User
 from .models import *
 
 
-class LoginForm(ModelForm):
-    class Meta:
-        model = User
-        fields = ['username', 'password']
-
-
-class SignupForm(ModelForm):
-    class Meta:
-        model = User
-        fields = ['username', 'password', 'email', 'first_name', 'last_name']
-
-
 class AccountForm(ModelForm):
     class Meta:
         model = User
@@ -35,6 +23,20 @@ class CreateESForm(ModelForm):
         fields = ['title', 'cost']
 
 
+# Below is all unused. Just saving in case I want to use in the future.
+"""
+class LoginForm(ModelForm):
+    class Meta:
+        model = User
+        fields = ['username', 'password']
+
+
+class SignupForm(ModelForm):
+    class Meta:
+        model = User
+        fields = ['username', 'password', 'email', 'first_name', 'last_name']
+
+
 class QuestionChoicesForm(ModelForm):
     class Meta:
         model = ESQuestion
@@ -46,7 +48,7 @@ class QuestionChoicesForm(ModelForm):
         for disabled_field in disabled_fields:
             self.fields[disabled_field].widget.attrs['disabled'] = 'true'
             self.fields[disabled_field].widget.attrs['class'] = 'myCustomClass'
-
+"""
 
 
 
