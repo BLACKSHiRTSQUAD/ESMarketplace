@@ -133,6 +133,6 @@ def test(request):
     email = user.email
 
     context = {'nbar': 'test', 'username': username, 'first_name': first_name, 'last_name': last_name, 'email': email}
-    return render(request, 'esm/w3css_template.html', context)
+    return render(request, 'esm/test.html', context)
 
 
