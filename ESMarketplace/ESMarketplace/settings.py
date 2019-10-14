@@ -23,10 +23,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'y5x%d^j)&kk9wma7)=su#g(y@2)_)^!a$lrch(zfu_(b-9$_=5'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['DjangoEsmApp-env.jzvbk5v22j.ap-southeast-1.elasticbeanstalk.com',
-                 'http://djangoesmapp-env.jzvbk5v22j.ap-southeast-1.elasticbeanstalk.com/']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'DjangoEsmApp-env.jzvbk5v22j.ap-southeast-1.elasticbeanstalk.com']
 
 
 # Application definition
