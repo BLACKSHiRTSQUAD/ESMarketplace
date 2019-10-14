@@ -12,8 +12,8 @@ from .forms import *
 # Create your views here.
 def home(request):
     if request.user.is_authenticated:
-        context = {'nbar': 'home'}
-        return render(request, 'esm/home.html', context)
+        context = {'nbar': 'home', 'path': "esm/home.html"}
+        return render(request, 'esm/base_html.html', context)
     else:
          return HttpResponseRedirect(reverse('esm:login'))
 
