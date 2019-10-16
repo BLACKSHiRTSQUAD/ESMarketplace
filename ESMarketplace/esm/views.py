@@ -13,9 +13,9 @@ from .forms import *
 def home(request):
     if request.user.is_authenticated:
         context = {'nbar': 'home', 'path': "esm/home.html"}
-        return render(request, 'esm/base_html.html', context)
+        return render(request, 'esm/base_html_user.html', context)
     else:
-         return HttpResponseRedirect(reverse('esm:login'))
+        return HttpResponseRedirect(reverse('esm:login'))
 
 
 def user_login(request):
@@ -26,9 +26,7 @@ def user_login(request):
         if user is not None:
             login(request, user)
             return HttpResponseRedirect(reverse('esm:home'))
-        else:
-            return render(request, 'esm/login.html', {})
-    return render(request, 'esm/login.html', {})
+    return render(request, 'esm/base_html_nouser.html', {'path': 'esm/login.html'})
 
 
 def user_logout(request):
@@ -46,7 +44,7 @@ def signup(request):
         user = User.objects.create_user(username, email, password, first_name=firstname, last_name=lastname)
         user.save()
         return HttpResponseRedirect(reverse('esm:login'))
-    return render(request, 'esm/signup.html', {})
+    return render(request, 'esm/base_html_nouser.html', {'path': 'esm/signup.html'})
 
 
 def create(request):
@@ -56,15 +54,15 @@ def create(request):
     if create_es_form.is_valid():
         create_es_form.save()
     esystems = ExpertSystem.objects.all()
-    context = {'nbar': 'create', 'esystems': esystems, 'create_es_form': create_es_form}
-    return render(request, 'esm/create.html', context)
+    context = {'nbar': 'create', 'esystems': esystems, 'create_es_form': create_es_form, 'path': 'esm/create.html'}
+    return render(request, 'esm/base_html_user.html', context)
 
 
 def edit(request, es_id):
     es = ExpertSystem.objects.get(pk=es_id)
     q = ESQuestion.objects.get(es_id=es)
-    context = {'nbar': 'create', 'es': es, 'question': q}
-    return render(request, 'esm/edit.html', context)
+    context = {'nbar': 'create', 'es': es, 'question': q, 'path': 'esm/edit.html'}
+    return render(request, 'esm/base_html_user.html', context)
 
 
 def get_question(request, q_id):
@@ -89,14 +87,14 @@ def save_question(request, q_id):
 
 
 def store(request):
-    context = {'nbar': 'store'}
-    return render(request, 'esm/store.html', context)
+    context = {'nbar': 'store', 'path': 'esm/store.html'}
+    return render(request, 'esm/base_html_user.html', context)
 
 
 def purchased(request):
     es_purchased = ESPurchased.objects.filter(user_id=request.user)
-    context = {'nbar': 'purchased', 'es_purchased': es_purchased}
-    return render(request, 'esm/purchased.html', context)
+    context = {'nbar': 'purchased', 'es_purchased': es_purchased, 'path': 'esm/purchased.html'}
+    return render(request, 'esm/base_html_user.html', context)
 
 
 def view_purchased_es(request, es_id):
@@ -121,8 +119,8 @@ def account(request):
             u_form.save()
     else:
         u_form = AccountForm(instance=user)
-    context = {'nbar': 'account', 'user': user, 'u_form': u_form}
-    return render(request, 'esm/account.html', context)
+    context = {'nbar': 'account', 'user': user, 'u_form': u_form, 'path': 'esm/account.html'}
+    return render(request, 'esm/base_html_user.html', context)
 
 
 def test(request):
