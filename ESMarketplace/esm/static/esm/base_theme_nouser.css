@@ -20,6 +20,10 @@ body {
 
     font-family: "Comic Sans MS", cursive, sans-serif;
     line-height: 200%;
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    overflow: hidden;
 }
 
 
@@ -79,8 +83,8 @@ img {
 
 
 .maindiv {
-    padding-top: 15%;
-    padding-bottom: 15%;
+    padding-top: 5%;
+    padding-bottom: 5%;
 }
 
 h1 {
