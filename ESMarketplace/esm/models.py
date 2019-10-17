@@ -10,13 +10,16 @@ class ESCategoryOne(models.Model):
 
 
 class ESCategoryTwo(models.Model):
-    category_one_id = models.ForeignKey(ESCategoryOne, on_delete=models.PROTECT)
+    category_one_id = models.ForeignKey(ESCategoryOne, on_delete=models.PROTECT, blank=True, null=True)
     category_title = models.TextField(max_length="40")
 
 
 class ESCategoryThree(models.Model):
-    category_two_id = models.ForeignKey(ESCategoryTwo, on_delete=models.PROTECT)
+    category_two_id = models.ForeignKey(ESCategoryTwo, on_delete=models.PROTECT, blank=True, null=True)
     category_title = models.TextField(max_length="40")
+
+    def __str__(self):
+        return self.category_title
 
 
 class ExpertSystem(models.Model):

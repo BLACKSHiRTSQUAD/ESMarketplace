@@ -25,13 +25,13 @@ SECRET_KEY = 'y5x%d^j)&kk9wma7)=su#g(y@2)_)^!a$lrch(zfu_(b-9$_=5'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'DjangoEsmApp-env.jzvbk5v22j.ap-southeast-1.elasticbeanstalk.com']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'DjangoEsmApp-env.jzvbk5v22j.ap-southeast-1.elasticbeanstalk.com',
+                 'expertsystemmarketplace.com', 'expertsystemsmarketplace.com']
 
 
 # Application definition
 
 INSTALLED_APPS = [
-    'marketplaceApp.apps.MarketplaceappConfig',
     'esm.apps.EsmConfig',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -119,4 +119,5 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
+STATIC_ROOT = os.path.join(BASE_DIR, "static")
 STATIC_URL = '/static/'

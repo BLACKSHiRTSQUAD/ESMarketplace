@@ -1,0 +1,13 @@
+
+
+<h1>Edit {{ question.es_id }}</h1>
+
+
+<div class="div1"></div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script>
+        $(".div1").load("/get_question_store/{{ question.id }}");
+    </script>
+
+

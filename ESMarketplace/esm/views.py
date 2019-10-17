@@ -54,7 +54,9 @@ def create(request):
     if create_es_form.is_valid():
         create_es_form.save()
     esystems = ExpertSystem.objects.all()
-    context = {'nbar': 'create', 'esystems': esystems, 'create_es_form': create_es_form, 'path': 'esm/create.html'}
+    escategories = ESCategoryThree.objects.all()
+    context = {'nbar': 'create', 'esystems': esystems, 'create_es_form': create_es_form, 'path': 'esm/create.html',
+               'escategories': escategories}
     return render(request, 'esm/base_html_user.html', context)
 
 
@@ -87,9 +89,23 @@ def save_question(request, q_id):
 
 
 def store(request):
-    context = {'nbar': 'store', 'path': 'esm/store.html'}
+    esystems = ExpertSystem.objects.all()
+    context = {'nbar': 'store', 'path': 'esm/store.html', 'esystems': esystems}
     return render(request, 'esm/base_html_user.html', context)
 
+
+def view_store_es(request, es_id):
+    es = ExpertSystem.objects.get(pk=es_id)
+    q = ESQuestion.objects.get(es_id=es)
+    context = {'nbar': 'store', 'es': es, 'question': q, 'path': 'esm/view_store_es.html'}
+    return render(request, 'esm/base_html_user.html', context)
+
+
+def get_question_store(request, q_id):
+    question = ESQuestion.objects.get(pk=q_id)
+    choice_set = question.esquestion_set.all()
+    context = {'nbar': 'store', 'question': question, 'choice_set': choice_set}
+    return render(request, 'esm/get_question_store.html', context)
 
 def purchased(request):
     es_purchased = ESPurchased.objects.filter(user_id=request.user)
