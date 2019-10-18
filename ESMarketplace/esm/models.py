@@ -43,7 +43,7 @@ class ESQuestion(models.Model):
     # Following the previous choice, the new question text ...
     # OR ... if leaf node, the question_text is actually the answer text.
     qa_text = models.CharField(max_length=400)
-    leaf = models.BooleanField(default=False, null=True, blank=True)
+    leaf = models.BooleanField(default=False, blank=True)
 
     def __str__(self):
         return self.qa_text

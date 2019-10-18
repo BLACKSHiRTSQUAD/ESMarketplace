@@ -107,6 +107,7 @@ def get_question_store(request, q_id):
     context = {'nbar': 'store', 'question': question, 'choice_set': choice_set}
     return render(request, 'esm/get_question_store.html', context)
 
+
 def purchased(request):
     es_purchased = ESPurchased.objects.filter(user_id=request.user)
     context = {'nbar': 'purchased', 'es_purchased': es_purchased, 'path': 'esm/purchased.html'}
