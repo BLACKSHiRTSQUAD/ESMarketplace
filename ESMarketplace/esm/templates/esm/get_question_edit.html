@@ -1,11 +1,12 @@
 <form id="init_form_id" action="/create/edit/save_question/{{ question.id }}" method="post">
     <p> {{ question.qa_text }} </p>
     {% for choice in choice_set %}
-    <input id={{ choice.id }} type="radio" value={{ choice.id }} name="{{ question.id }}">
-    <label for={{ choice.id }} type="text" contenteditable="true">
-        <input class="init_inputDisabled_class" type="text"
+    <input id="rbut_{{ choice.id }}" type="radio" value={{ choice.id }} name="{{ question.id }}">
+    <label for="rbut_{{ choice.id }}" type="text" contenteditable="true">
+        <input id="choicetext_{{ choice.id }}" class="init_inputDisabled_class" type="text"
                value="{{ choice.prev_choice_text }}"
                name={{ forloop.counter }} disabled></label>
+        <button aria-label="Close Account Info Modal Box">&#x274C;</button>
     <br>
     {% endfor %}
 

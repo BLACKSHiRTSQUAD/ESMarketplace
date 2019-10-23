@@ -121,3 +121,7 @@ USE_TZ = True
 
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
 STATIC_URL = '/static/'
+
+# Stripe stuff
+STRIPE_SECRET_KEY = 'sk_test_i6z19VxzuK39XsrN8JI2WoL200j2PkeKke'
+STRIPE_PUBLISHABLE_KEY = 'pk_test_5usFmYNTlKMS3vcFX0Lf5cSu00FHyVVlDU'

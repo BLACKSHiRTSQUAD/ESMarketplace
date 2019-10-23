@@ -11,6 +11,7 @@ urlpatterns = [
     path('create/', views.create, name='create'),
     path('store/', views.store, name='store'),
     path('store/<int:es_id>', views.view_store_es, name='store_es'),
+    path('store/charge>', views.charge, name='charge'),
     path('get_question_store/<int:q_id>', views.get_question_store, name='purchased'),
     path('purchased/', views.purchased, name='purchased'),
     path('purchased/<int:es_id>', views.view_purchased_es, name='purchased_es'),

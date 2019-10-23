@@ -1,3 +1,5 @@
+import stripe
+
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
@@ -5,11 +7,17 @@ from django.views import generic, View
 from django.utils import timezone
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, logout, login
+from django.conf import settings
 
 from .models import *
 from .forms import *
 
+
 # Create your views here.
+
+stripe.api_key = settings.STRIPE_SECRET_KEY
+
+
 def home(request):
     if request.user.is_authenticated:
         context = {'nbar': 'home', 'path': "esm/home.html"}
@@ -73,10 +81,10 @@ def get_question(request, q_id):
     context = {'nbar': 'test', 'question': question, 'choice_set': choice_set}
     return render(request, 'esm/get_question_edit.html', context)
 
+
 def save_question(request, q_id):
     assert request.method == 'POST'
     post_data = request.POST.getlist('data[]')
-
     q = ESQuestion.objects.get(id=q_id)
     choices = q.esquestion_set.all()
     for i in range(len(choices)):
@@ -90,7 +98,7 @@ def save_question(request, q_id):
 
 def store(request):
     esystems = ExpertSystem.objects.all()
-    context = {'nbar': 'store', 'path': 'esm/store.html', 'esystems': esystems}
+    context = {'nbar': 'store', 'path': 'esm/store.html', 'esystems': esystems, 'key': settings.STRIPE_PUBLISHABLE_KEY}
     return render(request, 'esm/base_html_user.html', context)
 
 
@@ -99,6 +107,18 @@ def view_store_es(request, es_id):
     q = ESQuestion.objects.get(es_id=es)
     context = {'nbar': 'store', 'es': es, 'question': q, 'path': 'esm/view_store_es.html'}
     return render(request, 'esm/base_html_user.html', context)
+
+
+def charge(request):
+    assert request.method == 'POST'
+    if request.method == 'POST':
+        charge = stripe.Charge.create(
+            amount=500,
+            currency='usd',
+            description='A Django test charge',
+            source=request.POST['stripeToken']
+        )
+        return render(request, 'esm/charge.html')
 
 
 def get_question_store(request, q_id):

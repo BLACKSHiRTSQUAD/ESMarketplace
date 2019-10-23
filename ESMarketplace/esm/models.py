@@ -46,7 +46,8 @@ class ESQuestion(models.Model):
     leaf = models.BooleanField(default=False, blank=True)
 
     def __str__(self):
-        return self.qa_text
+        s = "CHOICE:{}---QUESTION:{}".format(self.prev_choice_text, self.qa_text)
+        return s
 
 
 class ESPurchased(models.Model):
