@@ -4,20 +4,23 @@
     <meta charset="UTF-8">
     <title>Title</title>
     {% load static %}
-    <link rel="stylesheet" type="text/css" href="{% static 'esm/base_theme_user.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'esm/base_theme.css' %}">
 </head>
 <body>
 
-<div class="maindiv">
+<div class="basic">
+    {% include "esm/navbar.html" %}
+</div>
 
-
-    <div class="basic">
-        {% include "esm/navbar.html" %}
+<div class="maindiv container">
+    <div class="left-pane">
     </div>
 
-    <div class="left-pane">
+    <div class="mid-pane">
         {% include path %}
+    </div>
 
+    <div class="right-pane">
     </div>
 </div>
 
