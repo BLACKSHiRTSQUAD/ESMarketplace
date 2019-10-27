@@ -1,28 +1,30 @@
-<form id="init_form_id" action="/create/edit/save_question/{{ question.id }}" method="post">
-    <p> {{ question.qa_text }} </p>
-    {% for choice in choice_set %}
-    <div>
-        <input id="rbut_{{ choice.id }}" type="radio" value={{ choice.id }} name="{{ question.id }}">
-        <label for="rbut_{{ choice.id }}" type="text" contenteditable="true">
-            <input id="choicetext_{{ choice.id }}" class="init_inputDisabled_class" type="text"
-                   value="{{ choice.prev_choice_text }}"
-                   name={{ forloop.counter }} disabled></label>
-        <button class="deleteq hidden" id="deleteq_{{ choice.id }}" hidden="hidden">&#x274C;</button>
-        <br>
-    </div>
-    {% endfor %}
+<div>
+    <form id="init_form_id" action="/create/edit/save_question/{{ question.id }}" method="post">
+        <p> {{ question.qa_text }} </p>
+        {% for choice in choice_set %}
+        <div>
+            <input id="rbut_{{ choice.id }}" type="radio" value={{ choice.id }} name="{{ question.id }}">
+            <label for="rbut_{{ choice.id }}" type="text" contenteditable="true">
+                <input id="choicetext_{{ choice.id }}" class="init_inputDisabled_class" type="text"
+                       value="{{ choice.prev_choice_text }}"
+                       name={{ forloop.counter }} disabled></label>
+            <button class="deleteq hidden" id="deleteq_{{ choice.id }}" hidden="hidden">&#x274C;</button>
+            <br>
+        </div>
+        {% endfor %}
 
 
-</form>
-<button class="not_hidden" id="init_edit_id">Edit Question</button>
-<button class="hidden" id="init_cancel_id" hidden="hidden">Cancel</button>
-<button class="hidden" id="init_save_id" hidden="hidden">Save</button>
-<button class="hidden" id="init_add_id" hidden="hidden" style="color:green; font-weight: bold;">+</button>
+    </form>
+    <button class="not_hidden" id="init_edit_id">Edit Question</button>
+    <button class="hidden" id="init_cancel_id" hidden="hidden">Cancel</button>
+    <button class="hidden" id="init_save_id" hidden="hidden">Save</button>
+    <button class="hidden" id="init_add_id" hidden="hidden" style="color:green; font-weight: bold;">+</button>
 
-<br>
+    <br>
 
-<!-- Below id's change with jquery. -->
-<button id="init_confirm_select_id">Confirm Selection</button>
+    <!-- Below id's change with jquery. -->
+    <button id="init_confirm_select_id">Confirm Selection</button>
+</div>
 <div id="init_new_qa_div_id"></div>
 <!-- --- -->
 
@@ -74,9 +76,9 @@
             content = "    <div class='div_NEW'>\n" +
                 "        <input id=\"rbut_NEW\" type=\"radio\" value=NEW name=\"{{ question.id }}\">\n" +
                 "        <label for=\"rbut_NEW\" type=\"text\" contenteditable=\"true\">\n" +
-                "            <input id=\"choicetext_NEW\" class=\"init_inputDisabled_class\" type=\"text\"\n" +
-                "                   value=\"{{ choice.prev_choice_text }}\"\n" +
-                "                   name=NEW disabled></label>\n" +
+                "            <input id=\"choicetext_NEW\" class=\"choice_text " + inputDisabled_class + "\" type=\"text\"\n" +
+                "                   value=\"\"\n" +
+                "                   name=NEW></label>\n" +
                 "        <button class=\"deleteq hidden\" id=\"deleteq_NEW\">&#x274C;</button>\n" +
                 "        <br>\n" +
                 "    </div>";
@@ -88,8 +90,8 @@
         $("#" + edit_id).click(function (event) {
             event.preventDefault();
             $('.' + inputDisabled_class).prop("disabled", false); // Element(s) are now enabled.
-            $('.not_hidden').prop("hidden", true);
-            $('.hidden').prop("hidden", false);
+            $(this).parent().find('.not_hidden').prop("hidden", true);
+            $(this).parent().find('.hidden').prop("hidden", false);
         });
 
         // Cancel button
@@ -97,8 +99,8 @@
             event.preventDefault();
             $(".div_NEW").remove();
             $('.' + inputDisabled_class).prop("disabled", true); // Element(s) are now enabled.
-            $('.not_hidden').prop("hidden", false);
-            $('.hidden').prop("hidden", true);
+            $(this).parent().find('.not_hidden').prop("hidden", false);
+            $(this).parent().find('.hidden').prop("hidden", true);
         });
 
         // Save data from form and post to server with ajax
@@ -124,8 +126,8 @@
 
 
             $('.' + inputDisabled_class).prop("disabled", true); // Element(s) are now enabled.
-            $('.not_hidden').prop("hidden", false);
-            $('.hidden').prop("hidden", true);
+            $(this).parent().find('.not_hidden').prop("hidden", false);
+            $(this).parent().find('.hidden').prop("hidden", true);
         });
     })
     ;
