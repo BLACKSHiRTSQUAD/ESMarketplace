@@ -1,22 +1,25 @@
 <form id="init_form_id" action="/create/edit/save_question/{{ question.id }}" method="post">
     <p> {{ question.qa_text }} </p>
     {% for choice in choice_set %}
-    <input id="rbut_{{ choice.id }}" type="radio" value={{ choice.id }} name="{{ question.id }}">
-    <label for="rbut_{{ choice.id }}" type="text" contenteditable="true">
-        <input id="choicetext_{{ choice.id }}" class="init_inputDisabled_class" type="text"
-               value="{{ choice.prev_choice_text }}"
-               name={{ forloop.counter }} disabled></label>
-        <button aria-label="Close Account Info Modal Box">&#x274C;</button>
-    <br>
+    <div>
+        <input id="rbut_{{ choice.id }}" type="radio" value={{ choice.id }} name="{{ question.id }}">
+        <label for="rbut_{{ choice.id }}" type="text" contenteditable="true">
+            <input id="choicetext_{{ choice.id }}" class="init_inputDisabled_class" type="text"
+                   value="{{ choice.prev_choice_text }}"
+                   name={{ forloop.counter }} disabled></label>
+        <button class="deleteq hidden" id="deleteq_{{ choice.id }}" hidden="hidden">&#x274C;</button>
+        <br>
+    </div>
     {% endfor %}
 
-    <button id="init_edit_id">Edit Question</button>
-    <button id="init_cancel_id" hidden="hidden">Cancel</button>
-    <button id="init_save_id" hidden="hidden">Save</button>
-    <br>
 
 </form>
+<button class="not_hidden" id="init_edit_id">Edit Question</button>
+<button class="hidden" id="init_cancel_id" hidden="hidden">Cancel</button>
+<button class="hidden" id="init_save_id" hidden="hidden">Save</button>
+<button class="hidden" id="init_add_id" hidden="hidden" style="color:green; font-weight: bold;">+</button>
 
+<br>
 
 <!-- Below id's change with jquery. -->
 <button id="init_confirm_select_id">Confirm Selection</button>
@@ -35,6 +38,7 @@
         var new_qa_div_id = "new_qa_div_id_" + _selectIndex;
         var confirm_select_id = "confirm_select_id_" + _selectIndex;
         var save_id = "save_id_" + _selectIndex;
+        var add_id = "add_id_" + _selectIndex;
         var edit_id = "edit_id_" + _selectIndex;
         var cancel_id = "cancel_id_" + _selectIndex;
         var form_id = "form_id_" + _selectIndex;
@@ -43,13 +47,20 @@
         document.getElementById("init_new_qa_div_id").setAttribute("id", new_qa_div_id);
         document.getElementById("init_confirm_select_id").setAttribute("id", confirm_select_id);
         document.getElementById("init_save_id").setAttribute("id", save_id);
+        document.getElementById("init_add_id").setAttribute("id", add_id);
         document.getElementById("init_edit_id").setAttribute("id", edit_id);
         document.getElementById("init_cancel_id").setAttribute("id", cancel_id);
         document.getElementById("init_form_id").setAttribute("id", form_id);
-        $(".init_inputDisabled_class").attr("class", inputDisabled_class);
+        $(".init_inputDisabled_class").attr("class", inputDisabled_class + " choice_text");
 
 
-        // This is the "Confirm Selection" button
+        // Delete button
+        $('#' + form_id).on('click', '.deleteq', function () {
+            $(this).parent().remove()
+        });
+
+
+        // Confirm button
         $("#" + confirm_select_id).click(function () {
             var next_question_id = document.querySelector('input[name="{{ question.id }}"]:checked').value;
             $.get("/get_question/" + next_question_id, function (data) {
@@ -57,29 +68,44 @@
             });
         });
 
+        // Add New button
+        $("#" + add_id).click(function (event) {
+            event.preventDefault();
+            content = "    <div class='div_NEW'>\n" +
+                "        <input id=\"rbut_NEW\" type=\"radio\" value=NEW name=\"{{ question.id }}\">\n" +
+                "        <label for=\"rbut_NEW\" type=\"text\" contenteditable=\"true\">\n" +
+                "            <input id=\"choicetext_NEW\" class=\"init_inputDisabled_class\" type=\"text\"\n" +
+                "                   value=\"{{ choice.prev_choice_text }}\"\n" +
+                "                   name=NEW disabled></label>\n" +
+                "        <button class=\"deleteq hidden\" id=\"deleteq_NEW\">&#x274C;</button>\n" +
+                "        <br>\n" +
+                "    </div>";
+            $("#" + form_id).append(content);
+            // need to check if new text box; if none, then add one below
+        });
 
+        // Edit button
         $("#" + edit_id).click(function (event) {
             event.preventDefault();
             $('.' + inputDisabled_class).prop("disabled", false); // Element(s) are now enabled.
-            $('#' + edit_id).prop("hidden", true);
-            $('#' + cancel_id).prop("hidden", false);
-            $('#' + save_id).prop("hidden", false)
+            $('.not_hidden').prop("hidden", true);
+            $('.hidden').prop("hidden", false);
         });
 
-
+        // Cancel button
         $("#" + cancel_id).click(function (event) {
             event.preventDefault();
+            $(".div_NEW").remove();
             $('.' + inputDisabled_class).prop("disabled", true); // Element(s) are now enabled.
-            $('#' + edit_id).prop("hidden", false);
-            $('#' + cancel_id).prop("hidden", true);
-            $('#' + save_id).prop("hidden", true)
+            $('.not_hidden').prop("hidden", false);
+            $('.hidden').prop("hidden", true);
         });
 
         // Save data from form and post to server with ajax
         $("#" + save_id).click(function (event) {
             event.preventDefault();
-            console.log(_selectIndex);
             var json_obj = {'data': []};
+            $(".div_NEW").removeAttr("class");
             $('#' + form_id).find('input[type=text]').each(function (i, v) {
                 json_obj['data'].push($(this).val())
             });
@@ -98,9 +124,8 @@
 
 
             $('.' + inputDisabled_class).prop("disabled", true); // Element(s) are now enabled.
-            $('#' + edit_id).prop("hidden", false);
-            $('#' + cancel_id).prop("hidden", true);
-            $('#' + save_id).prop("hidden", true)
+            $('.not_hidden').prop("hidden", false);
+            $('.hidden').prop("hidden", true);
         });
     })
     ;
