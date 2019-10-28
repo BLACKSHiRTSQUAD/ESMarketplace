@@ -108,15 +108,15 @@
         // Save data from form and post to server with ajax
         $("#" + save_id).click(function (event) {
             event.preventDefault();
-            var json_obj = {'data': {}};
+            var json_obj = {};
             // Removing class attribute "div_NEW" prevents deletion on future "cancel" button press
             $(".div_NEW").removeAttr("class");
             $('#' + form_id).find('input[type=text]').each(function (i, v) {
                 // json_obj['data'].push($(this).val())
                 key = $(this).attr('data-choiceId');
-                json_obj.data[key] = $(this).val();
+                json_obj[key] = $(this).val();
             });
-            console.log(json_obj['data']);
+            console.log(json_obj);
             $.ajax({
                 url: "/create/edit/save_question/{{ question.id }}/",
                 method: "POST",

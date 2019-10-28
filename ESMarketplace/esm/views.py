@@ -1,4 +1,5 @@
 import stripe
+import json
 
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import get_object_or_404, render
@@ -84,7 +85,23 @@ def get_question(request, q_id):
 
 def save_question(request, q_id):
     assert request.method == 'POST'
-    post_data = request.POST.getlist('data[]')
+    post_data = json.loads(json.dumps(request.POST))
+    q = ESQuestion.objects.get(id=q_id)
+    for key, val in post_data.items():
+        if "new_" in key:
+            ch = ESQuestion(prev_question_id=q, prev_choice_text=val)
+            ch.save()
+        else:
+            ch = ESQuestion.objects.get(pk=key)
+            if val != ch.prev_choice_text:
+                ch.prev_choice_text = val
+                ch.save()
+        # if key contains "new", then add to database.
+        # if it's a key, then look for the choice and if different, modify it
+    context = {'nbar': 'create', 'question': q}
+    return HttpResponse(status=200)
+# below is to be removed
+"""
     q = ESQuestion.objects.get(id=q_id)
     choices = q.esquestion_set.all()
     for i in range(len(choices)):
@@ -92,8 +109,8 @@ def save_question(request, q_id):
             choice = choices[i]
             choice.prev_choice_text = post_data[i]
             choice.save()
-    context = {'nbar': 'create', 'question': q}
-    return HttpResponse(status=200)
+"""
+
 
 
 def store(request):
