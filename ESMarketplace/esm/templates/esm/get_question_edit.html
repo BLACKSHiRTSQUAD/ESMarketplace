@@ -6,7 +6,7 @@
             <input id="rbut_{{ choice.id }}" type="radio" value={{ choice.id }} name="{{ question.id }}">
             <label for="rbut_{{ choice.id }}" type="text" contenteditable="true">
                 <input id="choicetext_{{ choice.id }}" class="init_inputDisabled_class" type="text"
-                       value="{{ choice.prev_choice_text }}"
+                       data-choiceId="{{ choice.id }}" value="{{ choice.prev_choice_text }}"
                        name={{ forloop.counter }} disabled></label>
             <button class="deleteq hidden" id="deleteq_{{ choice.id }}" hidden="hidden">&#x274C;</button>
             <br>
@@ -36,6 +36,7 @@
         // sets the id's with a unique number
         // the _selectIndex var must remain local to the document ready function, so new ajax calls don't overwrite old id's
         var _selectIndex = Math.floor(Math.random() * 1000000);
+        var new_choice_counter = 0;
 
         var new_qa_div_id = "new_qa_div_id_" + _selectIndex;
         var confirm_select_id = "confirm_select_id_" + _selectIndex;
@@ -77,12 +78,13 @@
                 "        <input id=\"rbut_NEW\" type=\"radio\" value=NEW name=\"{{ question.id }}\">\n" +
                 "        <label for=\"rbut_NEW\" type=\"text\" contenteditable=\"true\">\n" +
                 "            <input id=\"choicetext_NEW\" class=\"choice_text " + inputDisabled_class + "\" type=\"text\"\n" +
-                "                   value=\"\"\n" +
+                "                   data-choiceId=\"new_" + new_choice_counter + "\" value=\"\"\n" +
                 "                   name=NEW></label>\n" +
                 "        <button class=\"deleteq hidden\" id=\"deleteq_NEW\">&#x274C;</button>\n" +
                 "        <br>\n" +
                 "    </div>";
             $("#" + form_id).append(content);
+            new_choice_counter++;
             // need to check if new text box; if none, then add one below
         });
 
@@ -106,10 +108,13 @@
         // Save data from form and post to server with ajax
         $("#" + save_id).click(function (event) {
             event.preventDefault();
-            var json_obj = {'data': []};
+            var json_obj = {'data': {}};
+            // Removing class attribute "div_NEW" prevents deletion on future "cancel" button press
             $(".div_NEW").removeAttr("class");
             $('#' + form_id).find('input[type=text]').each(function (i, v) {
-                json_obj['data'].push($(this).val())
+                // json_obj['data'].push($(this).val())
+                key = $(this).attr('data-choiceId');
+                json_obj.data[key] = $(this).val();
             });
             console.log(json_obj['data']);
             $.ajax({
