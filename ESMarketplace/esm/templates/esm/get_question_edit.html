@@ -1,6 +1,10 @@
 <div>
     <form id="init_form_id" action="/create/edit/save_question/{{ question.id }}" method="post">
+        {% if question.qa_text %}
         <p class="init_question_class"> {{ question.qa_text }} </p>
+        {% else %}
+        <p class="init_question_class"> (Type your question here) </p>
+        {% endif %}
         {% for choice in choice_set %}
         <div>
             <input id="rbut_{{ choice.id }}" type="radio" value={{ choice.id }} name="{{ question.id }}">
