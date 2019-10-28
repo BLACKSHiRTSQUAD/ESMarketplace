@@ -100,16 +100,17 @@ def save_question(request, q_id):
         # if it's a key, then look for the choice and if different, modify it
     context = {'nbar': 'create', 'question': q}
     return HttpResponse(status=200)
-# below is to be removed
-"""
-    q = ESQuestion.objects.get(id=q_id)
-    choices = q.esquestion_set.all()
-    for i in range(len(choices)):
-        if choices[i].prev_choice_text != post_data[i]:
-            choice = choices[i]
-            choice.prev_choice_text = post_data[i]
-            choice.save()
-"""
+
+
+def del_choice(request):
+    assert request.method == 'POST'
+    post_data = json.loads(json.dumps(request.POST))
+    del_key = post_data['delete_id']
+    if "new_" in del_key:
+        pass
+    else:
+        get_object_or_404(ESQuestion, pk=del_key).delete()
+    return HttpResponse(status=200)
 
 
 

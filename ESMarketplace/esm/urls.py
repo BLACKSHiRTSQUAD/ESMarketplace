@@ -22,6 +22,7 @@ urlpatterns = [
     path('get_question/<int:q_id>/', views.get_question, name='get_question'),
     path('create/edit/<int:es_id>/', views.edit, name='edit'),
     path('create/edit/save_question/<int:q_id>/', views.save_question, name='save_question'),
+    path('create/edit/delete_choice/', views.del_choice, name='del_choice'),
 
 
 ]

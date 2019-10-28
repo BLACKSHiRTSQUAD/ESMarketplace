@@ -59,7 +59,26 @@
 
         // Delete button
         $('#' + form_id).on('click', '.deleteq', function () {
+            var json_obj = {};
+            // need to find $(this).parent().--id of choice--
+            del_val = $(this).parent().find("[data-choiceId]").attr("data-choiceId")
+            json_obj['delete_id'] = del_val
+            console.log(del_val);
+            $.ajax({
+                url: "/create/edit/delete_choice/",
+                method: "POST",
+                headers: {'X-CSRFToken': '{{ csrf_token }}'},
+                data: json_obj,
+                dataType: "json"
+            }).done(function (response) {
+                console.log(response.id + " " + response.name);
+            }).fail(function (error) {
+                console.log(error);
+            });
+
+
             $(this).parent().remove()
+
         });
 
 
