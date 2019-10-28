@@ -1,10 +1,10 @@
 <div>
     <form id="init_form_id" action="/create/edit/save_question/{{ question.id }}" method="post">
-        <p> {{ question.qa_text }} </p>
+        <p class="init_question_class"> {{ question.qa_text }} </p>
         {% for choice in choice_set %}
         <div>
             <input id="rbut_{{ choice.id }}" type="radio" value={{ choice.id }} name="{{ question.id }}">
-            <label for="rbut_{{ choice.id }}" type="text" contenteditable="true">
+            <label for="rbut_{{ choice.id }}" type="text">
                 <input id="choicetext_{{ choice.id }}" class="init_inputDisabled_class" type="text"
                        data-choiceId="{{ choice.id }}" value="{{ choice.prev_choice_text }}"
                        name={{ forloop.counter }} disabled></label>
@@ -45,6 +45,7 @@
         var edit_id = "edit_id_" + _selectIndex;
         var cancel_id = "cancel_id_" + _selectIndex;
         var form_id = "form_id_" + _selectIndex;
+        var question_class = "question_id_" + _selectIndex;
         var inputDisabled_class = "inputDisabled_class_" + _selectIndex;
 
         document.getElementById("init_new_qa_div_id").setAttribute("id", new_qa_div_id);
@@ -54,6 +55,7 @@
         document.getElementById("init_edit_id").setAttribute("id", edit_id);
         document.getElementById("init_cancel_id").setAttribute("id", cancel_id);
         document.getElementById("init_form_id").setAttribute("id", form_id);
+        $(".init_question_class").attr("class", question_class + " question_text");
         $(".init_inputDisabled_class").attr("class", inputDisabled_class + " choice_text");
 
 
@@ -61,8 +63,8 @@
         $('#' + form_id).on('click', '.deleteq', function () {
             var json_obj = {};
             // need to find $(this).parent().--id of choice--
-            del_val = $(this).parent().find("[data-choiceId]").attr("data-choiceId")
-            json_obj['delete_id'] = del_val
+            del_val = $(this).parent().find("[data-choiceId]").attr("data-choiceId");
+            json_obj['delete_id'] = del_val;
             console.log(del_val);
             $.ajax({
                 url: "/create/edit/delete_choice/",
@@ -75,8 +77,7 @@
             }).fail(function (error) {
                 console.log(error);
             });
-
-
+            // remove it from html
             $(this).parent().remove()
 
         });
@@ -110,7 +111,8 @@
         // Edit button
         $("#" + edit_id).click(function (event) {
             event.preventDefault();
-            $('.' + inputDisabled_class).prop("disabled", false); // Element(s) are now enabled.
+            $('.' + inputDisabled_class).prop("disabled", false);
+            $('.' + question_class).prop("contentEditable", true);
             $(this).parent().find('.not_hidden').prop("hidden", true);
             $(this).parent().find('.hidden').prop("hidden", false);
         });
@@ -119,7 +121,8 @@
         $("#" + cancel_id).click(function (event) {
             event.preventDefault();
             $(".div_NEW").remove();
-            $('.' + inputDisabled_class).prop("disabled", true); // Element(s) are now enabled.
+            $('.' + inputDisabled_class).prop("disabled", true);
+            $('.' + question_class).prop("contentEditable", false);
             $(this).parent().find('.not_hidden').prop("hidden", false);
             $(this).parent().find('.hidden').prop("hidden", true);
         });
@@ -127,14 +130,15 @@
         // Save data from form and post to server with ajax
         $("#" + save_id).click(function (event) {
             event.preventDefault();
-            var json_obj = {};
             // Removing class attribute "div_NEW" prevents deletion on future "cancel" button press
             $(".div_NEW").removeAttr("class");
+            // add choices and question to json_obj
+            var json_obj = {};
             $('#' + form_id).find('input[type=text]').each(function (i, v) {
-                // json_obj['data'].push($(this).val())
                 key = $(this).attr('data-choiceId');
                 json_obj[key] = $(this).val();
             });
+            json_obj['question_text'] = $(this).parent().find("[class*=question_text]").html();
             console.log(json_obj);
             $.ajax({
                 url: "/create/edit/save_question/{{ question.id }}/",
@@ -147,9 +151,8 @@
             }).fail(function (error) {
                 console.log(error);
             });
-
-
-            $('.' + inputDisabled_class).prop("disabled", true); // Element(s) are now enabled.
+            $('.' + inputDisabled_class).prop("disabled", true);
+            $('.' + question_class).prop("contentEditable", false);
             $(this).parent().find('.not_hidden').prop("hidden", false);
             $(this).parent().find('.hidden').prop("hidden", true);
         });

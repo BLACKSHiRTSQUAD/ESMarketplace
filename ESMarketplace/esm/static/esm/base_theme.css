@@ -74,6 +74,10 @@ li a {
     color: white;
 }
 
+.question_text {
+    width: 70%;
+}
+
 .choice_text {
     width: 70%;
 }

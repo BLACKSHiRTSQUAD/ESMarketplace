@@ -88,7 +88,11 @@ def save_question(request, q_id):
     post_data = json.loads(json.dumps(request.POST))
     q = ESQuestion.objects.get(id=q_id)
     for key, val in post_data.items():
-        if "new_" in key:
+        if key == "question_text":
+            if q.qa_text != val:
+                q.qa_text = val
+                q.save()
+        elif "new_" in key:
             ch = ESQuestion(prev_question_id=q, prev_choice_text=val)
             ch.save()
         else:
@@ -111,7 +115,6 @@ def del_choice(request):
     else:
         get_object_or_404(ESQuestion, pk=del_key).delete()
     return HttpResponse(status=200)
-
 
 
 def store(request):
