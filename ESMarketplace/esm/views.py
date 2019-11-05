@@ -61,7 +61,11 @@ def create(request):
         return HttpResponseRedirect(reverse('esm:login'))
     create_es_form = CreateESForm(request.POST or None)
     if create_es_form.is_valid():
-        create_es_form.save()
+        new_es = create_es_form.save(commit=False)
+        new_es.owner = request.user
+        new_es.save()
+        new_q = ESQuestion(es_id=new_es, qa_text="Initial question goes here.")
+        new_q.save()
     esystems = ExpertSystem.objects.all()
     escategories = ESCategoryThree.objects.all()
     context = {'nbar': 'create', 'esystems': esystems, 'create_es_form': create_es_form, 'path': 'esm/create.html',

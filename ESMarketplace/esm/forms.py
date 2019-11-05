@@ -23,6 +23,7 @@ class CreateESForm(ModelForm):
         fields = ['title', 'cost', 'category_id']
 
 
+
 # Below is all unused. Just saving in case I want to use in the future.
 """
 class LoginForm(ModelForm):
