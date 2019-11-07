@@ -100,6 +100,8 @@ def create_save_question(request, q_id):
     assert request.method == 'POST'
     post_data = json.loads(json.dumps(request.POST))
     q = ESQuestion.objects.get(id=q_id)
+    # if key contains "new", then add to database.
+    # if it's a database key, then look for the choice and if different, modify it
     for key, val in post_data.items():
         if key == "question_text":
             if q.qa_text != val:
@@ -113,8 +115,7 @@ def create_save_question(request, q_id):
             if val != ch.prev_choice_text:
                 ch.prev_choice_text = val
                 ch.save()
-        # if key contains "new", then add to database.
-        # if it's a key, then look for the choice and if different, modify it
+
     context = {'nbar': 'create', 'question': q}
     return HttpResponse(status=200)
 

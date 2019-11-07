@@ -4,7 +4,7 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "ESMarketplace.ESMarketplace.set
 import django
 django.setup()
 
-from esm.models import ExpertSystem, ESQuestion, ESPurchased, ESCategoryOne, ESCategoryTwo, ESCategoryThree
+from esm.models import ExpertSystem, ESQuestion, ESCategoryOne, ESCategoryTwo, ESCategoryThree, Company
 from django.contrib.auth.models import User
 
 
@@ -14,7 +14,8 @@ try:
 
 except User.DoesNotExist:
     print("EXCEPT")
-    u = User.objects.create_user(username='juser', first_name='Jerry', last_name='Wdubs', email='jerry@example.com', password='password')
+    u = User.objects.create_user(username='juser', first_name='Jerry', last_name='Wdubs', email='jerry@example.com',
+                                 password='password', is_superuser=True, is_staff=True)
     u.save()
 
     u2 = User.objects.create_user(username='customer', first_name='customer', last_name='customer',
@@ -44,10 +45,13 @@ except User.DoesNotExist:
     esc9.save()
 
     ##########################################################
-    es = ExpertSystem(owner=u, title="Troubleshoot PC Internet Connectivity", cost=110.00, category_id=esc7)
+    company = Company(name="Jerry's Company")
+    company.save()
+
+    es = ExpertSystem(owner=company, title="Troubleshoot PC Internet Connectivity", cost=110.00, category_id=esc7)
     es.save()
 
-    es2 = ExpertSystem(owner=u, title="Guess Your Number, 1 to 100", cost=9999.00, category_id=esc6)
+    es2 = ExpertSystem(owner=company, title="Guess Your Number, 1 to 100", cost=9999.00, category_id=esc6)
     es2.save()
 
     ##########################################################
@@ -119,8 +123,4 @@ except User.DoesNotExist:
     esq2_41.save()
 
 
-    ##########################################################
-    # customer purchase from user 1
-    es_pur = ESPurchased(user_id=u2, es_id=es)
-    es_pur.save()
 
