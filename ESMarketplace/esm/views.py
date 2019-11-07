@@ -1,4 +1,3 @@
-import stripe
 import json
 
 from django.http import HttpResponseRedirect, HttpResponse
@@ -14,15 +13,12 @@ from .models import *
 from .forms import *
 
 
-# Create your views here.
-
-stripe.api_key = settings.STRIPE_SECRET_KEY
-
-
+#######################################################################################################################
+# Account and user
 def home(request):
     if request.user.is_authenticated:
         context = {'nbar': 'home', 'path': "esm/home.html"}
-        return render(request, 'esm/base_html_user.html', context)
+        return HttpResponseRedirect(reverse('esm:search'))
     else:
         return HttpResponseRedirect(reverse('esm:login'))
 
@@ -35,7 +31,7 @@ def user_login(request):
         if user is not None:
             login(request, user)
             return HttpResponseRedirect(reverse('esm:home'))
-    return render(request, 'esm/base_html_nouser.html', {'path': 'esm/login.html'})
+    return render(request, 'esm/user_login.html', {})
 
 
 def user_logout(request):
@@ -53,9 +49,22 @@ def signup(request):
         user = User.objects.create_user(username, email, password, first_name=firstname, last_name=lastname)
         user.save()
         return HttpResponseRedirect(reverse('esm:login'))
-    return render(request, 'esm/base_html_nouser.html', {'path': 'esm/signup.html'})
+    return render(request, 'esm/user_signup.html', {})
 
 
+def account(request):
+    user = request.user
+    if request.method == 'POST':
+        u_form = AccountForm(request.POST, instance=user)
+        if u_form.is_valid():
+            u_form.save()
+    else:
+        u_form = AccountForm(instance=user)
+    context = {'nbar': 'account', 'user': user, 'u_form': u_form, 'path': 'esm/user_account.html'}
+    return render(request, 'esm/base_html_user.html', context)
+
+#######################################################################################################################
+# Create
 def create(request):
     if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse('esm:login'))
@@ -73,21 +82,21 @@ def create(request):
     return render(request, 'esm/base_html_user.html', context)
 
 
-def edit(request, es_id):
+def create_edit_es(request, es_id):
     es = ExpertSystem.objects.get(pk=es_id)
     q = ESQuestion.objects.get(es_id=es)
-    context = {'nbar': 'create', 'es': es, 'question': q, 'path': 'esm/edit.html'}
+    context = {'nbar': 'create', 'es': es, 'question': q, 'path': 'esm/create_edit_es.html'}
     return render(request, 'esm/base_html_user.html', context)
 
 
-def get_question(request, q_id):
+def create_get_question(request, q_id):
     question = ESQuestion.objects.get(pk=q_id)
     choice_set = question.esquestion_set.all()
     context = {'nbar': 'test', 'question': question, 'choice_set': choice_set}
-    return render(request, 'esm/get_question_edit.html', context)
+    return render(request, 'esm/create_get_question.html', context)
 
 
-def save_question(request, q_id):
+def create_save_question(request, q_id):
     assert request.method == 'POST'
     post_data = json.loads(json.dumps(request.POST))
     q = ESQuestion.objects.get(id=q_id)
@@ -110,7 +119,7 @@ def save_question(request, q_id):
     return HttpResponse(status=200)
 
 
-def del_choice(request):
+def create_del_choice(request):
     assert request.method == 'POST'
     post_data = json.loads(json.dumps(request.POST))
     del_key = post_data['delete_id']
@@ -120,89 +129,28 @@ def del_choice(request):
         get_object_or_404(ESQuestion, pk=del_key).delete()
     return HttpResponse(status=200)
 
-
-def store(request):
+#######################################################################################################################
+# Search
+def search(request):
     esystems = ExpertSystem.objects.all()
-    context = {'nbar': 'store', 'path': 'esm/store.html', 'esystems': esystems, 'key': settings.STRIPE_PUBLISHABLE_KEY}
+    context = {'nbar': 'search', 'path': 'esm/search.html', 'esystems': esystems}
     return render(request, 'esm/base_html_user.html', context)
 
 
-def view_store_es(request, es_id):
+def search_es(request, es_id):
     es = ExpertSystem.objects.get(pk=es_id)
     q = ESQuestion.objects.get(es_id=es)
-    context = {'nbar': 'store', 'es': es, 'question': q, 'path': 'esm/view_store_es.html'}
+    context = {'nbar': 'search', 'es': es, 'question': q, 'path': 'esm/search_es.html'}
     return render(request, 'esm/base_html_user.html', context)
 
 
-def charge(request):
-    assert request.method == 'POST'
-    if request.method == 'POST':
-        charge = stripe.Charge.create(
-            amount=500,
-            currency='usd',
-            description='A Django test charge',
-            source=request.POST['stripeToken']
-        )
-        return render(request, 'esm/charge.html')
-
-
-def get_question_store(request, q_id):
+def search_get_question(request, q_id):
     question = ESQuestion.objects.get(pk=q_id)
     choice_set = question.esquestion_set.all()
-    context = {'nbar': 'store', 'question': question, 'choice_set': choice_set}
-    return render(request, 'esm/get_question_store.html', context)
+    context = {'nbar': 'search', 'question': question, 'choice_set': choice_set}
+    return render(request, 'esm/search_get_question.html', context)
 
 
-def purchased(request):
-    es_purchased = ESPurchased.objects.filter(user_id=request.user)
-    context = {'nbar': 'purchased', 'es_purchased': es_purchased, 'path': 'esm/purchased.html'}
-    return render(request, 'esm/base_html_user.html', context)
 
 
-def view_purchased_es(request, es_id):
-    es = ExpertSystem.objects.get(pk=es_id)
-    q = ESQuestion.objects.get(es_id=es)
-    context = {'nbar': 'create', 'es': es, 'question': q}
-    return render(request, 'esm/view_purchased_es.html', context)
-
-
-def get_question_purchased(request, q_id):
-    question = ESQuestion.objects.get(pk=q_id)
-    choice_set = question.esquestion_set.all()
-    context = {'nbar': 'test', 'question': question, 'choice_set': choice_set}
-    return render(request, 'esm/get_question_purchased.html', context)
-
-
-def account(request):
-    user = request.user
-    if request.method == 'POST':
-        u_form = AccountForm(request.POST, instance=user)
-        if u_form.is_valid():
-            u_form.save()
-    else:
-        u_form = AccountForm(instance=user)
-    context = {'nbar': 'account', 'user': user, 'u_form': u_form, 'path': 'esm/account.html'}
-    return render(request, 'esm/base_html_user.html', context)
-
-
-def test(request):
-    user = User.objects.get(username='juser')
-    username = user.username
-    first_name = user.first_name
-    last_name = user.last_name
-    email = user.email
-
-    context = {'nbar': 'test', 'username': username, 'first_name': first_name, 'last_name': last_name, 'email': email}
-    return render(request, 'esm/test.html', context)
-
-
-def testtwo(request):
-    user = User.objects.get(username='juser')
-    username = user.username
-    first_name = user.first_name
-    last_name = user.last_name
-    email = user.email
-
-    context = {'nbar': 'testtwo', 'username': username, 'first_name': first_name, 'last_name': last_name, 'email': email}
-    return render(request, 'esm/testtwo.html', context)
 

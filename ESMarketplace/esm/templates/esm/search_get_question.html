@@ -1,12 +1,13 @@
 
 
 <form id="init_form_id" action="/create/edit/save_question/{{ question.id }}" method="post">
-    <p> {{ question.qa_text }} </p>
+    <p> {{ question.qa_text|safe }} </p>
     {% for choice in choice_set %}
     <input id={{ choice.id }} type="radio" value={{ choice.id }} name="{{ question.id }}">
     <label for={{ choice.id }} type="text" contenteditable="true">{{ choice.prev_choice_text }}</label>
     <br>
     {% endfor %}
+
 
 </form>
 
@@ -29,21 +30,21 @@
         var new_qa_div_id = "new_qa_div_id_" + _selectIndex;
         var confirm_select_id = "confirm_select_id_" + _selectIndex;
         var form_id = "form_id_" + _selectIndex;
+        var inputDisabled_class = "inputDisabled_class_" + _selectIndex;
 
         document.getElementById("init_new_qa_div_id").setAttribute("id", new_qa_div_id);
         document.getElementById("init_confirm_select_id").setAttribute("id", confirm_select_id);
         document.getElementById("init_form_id").setAttribute("id", form_id);
+        $(".init_inputDisabled_class").attr("class", inputDisabled_class);
 
 
         // This is the "Confirm Selection" button
         $("#" + confirm_select_id).click(function () {
             var next_question_id = document.querySelector('input[name="{{ question.id }}"]:checked').value;
-            $.get("/get_question_purchased/" + next_question_id, function (data) {
+            $.get("/get_question_search/" + next_question_id, function (data) {
                 $("#" + new_qa_div_id).html(data);
             });
         });
+
     });
-
-
-
 </script>

@@ -1,6 +1,6 @@
 <div>
     <form id="init_form_id" action="/create/edit/save_question/{{ question.id }}" method="post">
-        {% if question.qa_text %}
+        {% if question.qa_text|safe %}
         <p class="init_question_class"> {{ question.qa_text }} </p>
         {% else %}
         <p class="init_question_class"> (Type your question here) </p>

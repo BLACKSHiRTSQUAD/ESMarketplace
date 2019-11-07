@@ -8,8 +8,11 @@
 </head>
 <body>
 
-<div class="basic">
-    {% include "esm/navbar.html" %}
+
+<div class="topnav">
+    <a class="{% if nbar == 'search' %}active{% endif %}" href="/search/">Search</a>
+    <a class="{% if nbar == 'create' %}active{% endif %}" href="/create/">Create</a>
+    <a style='float: right' class="{% if nbar == 'account' %}active{% endif %}" href="/account/">Account</a>
 </div>
 
 <div class="maindiv container">

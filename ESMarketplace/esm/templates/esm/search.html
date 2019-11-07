@@ -1,0 +1,6 @@
+{% for es in esystems %}
+<form action="/search/{{ es.id }}" method="get">
+    <input type="submit" value=" "/>
+    <b>{{ es.title }}</b>
+</form>
+{% endfor %}

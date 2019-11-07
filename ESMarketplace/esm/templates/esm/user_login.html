@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    {% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'esm/base_theme.css' %}">
+</head>
+<body>
+
+<div class="maindiv container">
+    <div class="left-pane">
+    </div>
+
+    <div class="mid-pane">
+        <br><br><br><br><br><br><br>
+        <h1>Login</h1>
+
+        <form action="/login/" method="post">
+            Username:<br>
+            <input type="text" name="username"><br>
+            Password:<br>
+            <input type="password" name="password">
+            <input type="submit" value="Submit">
+            {% csrf_token %}
+        </form>
+
+        <br>
+        <a href="/signup/">Sign Up Now</a>
+    </div>
+
+    <div class="right-pane">
+    </div>
+</div>
+
+</body>
+</html>
