@@ -20,7 +20,7 @@ class AccountForm(ModelForm):
 class CreateESForm(ModelForm):
     class Meta:
         model = ExpertSystem
-        fields = ['title', 'cost', 'category_id']
+        fields = ['title', 'category_id']
 
 
 

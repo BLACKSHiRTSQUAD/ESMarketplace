@@ -72,6 +72,7 @@ def create(request):
     if create_es_form.is_valid():
         new_es = create_es_form.save(commit=False)
         new_es.owner = request.user
+        new_es.company = new_es.owner.profile.company
         new_es.save()
         new_q = ESQuestion(es_id=new_es, qa_text="Initial question goes here.")
         new_q.save()

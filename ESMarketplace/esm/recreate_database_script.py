@@ -4,7 +4,7 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "ESMarketplace.ESMarketplace.set
 import django
 django.setup()
 
-from esm.models import ExpertSystem, ESQuestion, ESCategoryOne, ESCategoryTwo, ESCategoryThree, Company
+from esm.models import ExpertSystem, ESQuestion, ESCategoryTwo, ESCategoryThree, Company
 from django.contrib.auth.models import User
 
 
@@ -14,25 +14,31 @@ try:
 
 except User.DoesNotExist:
     print("EXCEPT")
+
+    company = Company(name="GLOBAL")
+    company.save()
+
+    company2 = Company(name="Jerry's Test Global")
+    company2.save()
+
     u = User.objects.create_user(username='juser', first_name='Jerry', last_name='Wdubs', email='jerry@example.com',
                                  password='password', is_superuser=True, is_staff=True)
+    u.profile.company = company
     u.save()
+
+
 
     u2 = User.objects.create_user(username='customer', first_name='customer', last_name='customer',
                                   email='customer@customer.com',
                                   password='password')
+    u2.profile.company = company2
     u2.save()
     ##########################################################
-    esc1 = ESCategoryOne(category_title="Math")
-    esc1.save()
-    esc2 = ESCategoryOne(category_title="IT")
-    esc2.save()
-
-    esc3 = ESCategoryTwo(category_title="Numbers", category_one_id=esc1)
+    esc3 = ESCategoryTwo(category_title="Numbers", category_one_id=company)
     esc3.save()
-    esc4 = ESCategoryTwo(category_title="PC", category_one_id=esc2)
+    esc4 = ESCategoryTwo(category_title="PC", category_one_id=company)
     esc4.save()
-    esc5 = ESCategoryTwo(category_title="Networking", category_one_id=esc2)
+    esc5 = ESCategoryTwo(category_title="Networking", category_one_id=company)
     esc5.save()
 
     esc6 = ESCategoryThree(category_title="Other", category_two_id=esc3)
@@ -45,13 +51,12 @@ except User.DoesNotExist:
     esc9.save()
 
     ##########################################################
-    company = Company(name="Jerry's Company")
-    company.save()
 
-    es = ExpertSystem(owner=company, title="Troubleshoot PC Internet Connectivity", cost=110.00, category_id=esc7)
+
+    es = ExpertSystem(owner=u, company=company, title="Troubleshoot PC Internet Connectivity", category_id=esc7)
     es.save()
 
-    es2 = ExpertSystem(owner=company, title="Guess Your Number, 1 to 100", cost=9999.00, category_id=esc6)
+    es2 = ExpertSystem(owner=u, company=company, title="Guess Your Number, 1 to 100", category_id=esc6)
     es2.save()
 
     ##########################################################
