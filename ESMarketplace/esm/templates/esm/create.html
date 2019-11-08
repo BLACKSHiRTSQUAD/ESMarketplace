@@ -1,21 +1,10 @@
 
-
-<h1>Create or edit an ES</h1>
-
 {% for es in esystems %}
-<form action="/create/edit/{{ es.id }}" method="get">
-    <input type="submit" value="Go to ES {{ es.id }}"/>
-    <b>{{ es.title }}</b>
-</form>
+<button class="esbutton" onclick="location.href='/create/edit/{{ es.id }}'" type="button"><b>{{ es.title }}</b> <br>
+    {{ es.esquestion.qa_text }}</button>
+<br>
 {% endfor %}
 
-<br><br><br>
-<b>Create New ES
-    <form action="/create/" method="post">
-        {% csrf_token %}
-        {% for field in create_es_form %}
-        {{ field.label }} {{ field }}<br>
-        {% endfor %}
-        <input type="submit" value="Create ES">
-    </form>
-</b>
+
+
+

@@ -17,7 +17,6 @@ from .forms import *
 # Account and user
 def home(request):
     if request.user.is_authenticated:
-        context = {'nbar': 'home', 'path': "esm/home.html"}
         return HttpResponseRedirect(reverse('esm:search'))
     else:
         return HttpResponseRedirect(reverse('esm:login'))
@@ -60,7 +59,7 @@ def account(request):
             u_form.save()
     else:
         u_form = AccountForm(instance=user)
-    context = {'nbar': 'account', 'user': user, 'u_form': u_form, 'path': 'esm/user_account.html'}
+    context = {'nbar': 'account', 'user': user, 'u_form': u_form, 'midpane': 'esm/user_account.html'}
     return render(request, 'esm/base_html_user.html', context)
 
 #######################################################################################################################
@@ -78,15 +77,15 @@ def create(request):
         new_q.save()
     esystems = ExpertSystem.objects.all()
     escategories = ESCategoryThree.objects.all()
-    context = {'nbar': 'create', 'esystems': esystems, 'create_es_form': create_es_form, 'path': 'esm/create.html',
-               'escategories': escategories}
+    context = {'nbar': 'create', 'esystems': esystems, 'create_es_form': create_es_form, 'midpane': 'esm/create.html',
+               'leftpanetwo': 'esm/lpane_create.html', 'escategories': escategories}
     return render(request, 'esm/base_html_user.html', context)
 
 
 def create_edit_es(request, es_id):
     es = ExpertSystem.objects.get(pk=es_id)
     q = ESQuestion.objects.get(es_id=es)
-    context = {'nbar': 'create', 'es': es, 'question': q, 'path': 'esm/create_edit_es.html'}
+    context = {'nbar': 'create', 'es': es, 'question': q, 'midpane': 'esm/create_edit_es.html'}
     return render(request, 'esm/base_html_user.html', context)
 
 
@@ -135,14 +134,15 @@ def create_del_choice(request):
 # Search
 def search(request):
     esystems = ExpertSystem.objects.all()
-    context = {'nbar': 'search', 'path': 'esm/search.html', 'esystems': esystems}
+    context = {'nbar': 'search', 'leftpane': 'esm/lpane_search.html', 'midpane': 'esm/search.html',
+               'esystems': esystems}
     return render(request, 'esm/base_html_user.html', context)
 
 
 def search_es(request, es_id):
     es = ExpertSystem.objects.get(pk=es_id)
     q = ESQuestion.objects.get(es_id=es)
-    context = {'nbar': 'search', 'es': es, 'question': q, 'path': 'esm/search_es.html'}
+    context = {'nbar': 'search', 'es': es, 'question': q, 'midpane': 'esm/search_es.html'}
     return render(request, 'esm/base_html_user.html', context)
 
 

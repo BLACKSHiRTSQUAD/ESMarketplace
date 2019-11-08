@@ -17,13 +17,28 @@
 
 <div class="maindiv container">
     <div class="left-pane">
+        {% if leftpane %}
+        {% include leftpane %}
+        {% endif %}
+        {% if leftpanetwo %}
+        {% include leftpanetwo %}
+        {% endif %}
     </div>
 
     <div class="mid-pane">
-        {% include path %}
+        {% if midpane %}
+        {% include midpane %}
+        {% else %}
+        {# variables are not defined here #}
+        {% endif %}
     </div>
 
     <div class="right-pane">
+        {% if rightpane %}
+        {% include rightpane %}
+        {% else %}
+        {# variables are not defined here #}
+        {% endif %}
     </div>
 </div>
 

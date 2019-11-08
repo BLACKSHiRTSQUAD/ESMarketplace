@@ -1,8 +1,7 @@
-<h1>Search for an ES</h1>
+
 
 {% for es in esystems %}
-<form action="/search/{{ es.id }}" method="get">
-    <input type="submit" value=" "/>
-    <b>{{ es.title }}</b>
-</form>
+<button class="esbutton" onclick="location.href='/search/{{ es.id }}'" type="button"><b>{{ es.title }}</b> <br>
+    {{ es.esquestion.qa_text }}</button>
+<br>
 {% endfor %}
