@@ -77,8 +77,12 @@ def create(request):
         new_q.save()
     esystems = ExpertSystem.objects.all()
     escategories = ESCategoryThree.objects.all()
+    company_pk = request.user.profile.company.pk
+    esc2 = ESCategoryTwo.objects.filter(category_one_id__in=[1, company_pk])
+    esc3 = ESCategoryThree.objects.filter(category_two_id__in=esc2)
     context = {'nbar': 'create', 'esystems': esystems, 'create_es_form': create_es_form, 'midpane': 'esm/create.html',
-               'leftpane': 'esm/lpane_search.html', 'leftpanetwo': 'esm/lpane_create.html', 'escategories': escategories}
+               'leftpane': 'esm/lpane_search.html', 'leftpanetwo': 'esm/lpane_create.html',
+               'escategories': escategories, 'esc2': esc2, 'esc3': esc3}
     return render(request, 'esm/base_html_user.html', context)
 
 
@@ -136,9 +140,7 @@ def search(request):
     esystems = ExpertSystem.objects.all()
     company_pk = request.user.profile.company.pk
     esc2 = ESCategoryTwo.objects.filter(category_one_id__in=[1, company_pk])
-    print(esc2)
     esc3 = ESCategoryThree.objects.filter(category_two_id__in=esc2)
-    print(esc3)
     context = {'nbar': 'search', 'leftpane': 'esm/lpane_search.html', 'midpane': 'esm/search.html',
                'esystems': esystems, 'esc2': esc2, 'esc3': esc3}
     return render(request, 'esm/base_html_user.html', context)
