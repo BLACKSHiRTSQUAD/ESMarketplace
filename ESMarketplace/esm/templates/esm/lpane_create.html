@@ -1,10 +1,12 @@
-<b>Create New ES
-    <br><br>
-    <form action="/create/" method="post">
-        {% csrf_token %}
-        {% for field in create_es_form %}
-        {{ field.label }} <br> {{ field }}<br><br>
-        {% endfor %}
-        <input type="submit" value="Create ES">
-    </form>
-</b>
+
+
+    <b>Create New ES
+        <br><br>
+        <form action="/create/" method="post">
+            {% csrf_token %}
+            {% for field in create_es_form %}
+            {{ field.label }} <br> {{ field }}<br><br>
+            {% endfor %}
+            <input type="submit" value="Create ES">
+        </form>
+    </b>

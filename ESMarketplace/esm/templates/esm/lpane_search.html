@@ -1,2 +1,14 @@
 <b>Search</b>
-<input type="text" placeholder="Search...">
+<input class="lpane_text" type="text" placeholder="Search...">
+<br><br>
+
+<b>Category</b>
+<select name="category_two_id" class="lpane_text" required="" id="category_two_id">
+  <option value="" selected="">---------</option>
+
+    {% for esc in esc2 %}
+        <option value={{ forloop.counter }}>{{ esc }}</option>
+    {% endfor %}
+
+
+</select>

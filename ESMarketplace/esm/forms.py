@@ -22,6 +22,11 @@ class CreateESForm(ModelForm):
         model = ExpertSystem
         fields = ['title', 'category_id']
 
+    def __init__(self, *args, **kwargs):
+        super(CreateESForm, self).__init__(*args, **kwargs)
+        self.fields['title'].widget.attrs['class'] = 'lpane_text'
+        self.fields['category_id'].widget.attrs['class'] = 'lpane_text'
+
 
 
 # Below is all unused. Just saving in case I want to use in the future.
