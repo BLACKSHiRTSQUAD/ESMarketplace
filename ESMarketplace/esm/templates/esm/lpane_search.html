@@ -1,14 +1,57 @@
 <b>Search</b>
-<input class="lpane_text" type="text" placeholder="Search...">
+<input id="es_search" class="lpane_text" type="text" placeholder="Search...">
 <br><br>
 
 <b>Category</b>
-<select name="category_two_id" class="lpane_text" required="" id="category_two_id">
-  <option value="" selected="">---------</option>
-
+<select name="category_two_id" class="lpane_text es_category" required="" id="category_two_id">
+    <option value="esbutton" selected="">---------</option>
     {% for esc in esc2 %}
-        <option value={{ forloop.counter }}>{{ esc }}</option>
+    <option class="{{ esc.category_title }}-{{ esc.pk }}" value="{{ esc.category_title }}-{{ esc.pk }}">
+        {{ esc.category_title }}
+    </option>
     {% endfor %}
-
-
 </select>
+
+<select name="category_three_id" class="lpane_text es_category" required="" id="category_three_id">
+    <option class="selection_default" value="esbutton" selected="">---------</option>
+    {% for esc in esc3 %}
+    <option class="category_three_class {{ esc.category_two_id.category_title }}-{{ esc.category_two_id.pk }}"
+            value="{{ esc.category_title }}-{{ esc.pk }}">{{ esc.category_title }}
+    </option>
+    {% endfor %}
+</select>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+
+        // Remove category_three options
+        $(".category_three_class").filter(function () {
+                $(this).toggle($(this).hasClass("selection_default"))
+
+            });
+
+        // Search textbox filtering
+        $("#es_search").on("keyup", function () {
+            var value = $(this).val().toLowerCase();
+            $(".search_filtered").filter(function () {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+
+        });
+
+        // Category selection filtering
+        $(".es_category").change(function () {
+            var esc_one_value = $("#category_two_id").val();
+            var esc_two_value = $("#category_three_id").val();
+            $(".search_filtered").filter(function () {
+                $(this).toggle($(this).hasClass(esc_one_value) && $(this).hasClass(esc_two_value))
+            });
+            $(".category_three_class").filter(function () {
+                $(this).toggle($(this).hasClass(esc_one_value))
+
+            });
+        });
+    });
+</script>

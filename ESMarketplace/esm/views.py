@@ -140,7 +140,7 @@ def search(request):
     esc3 = ESCategoryThree.objects.filter(category_two_id__in=esc2)
     print(esc3)
     context = {'nbar': 'search', 'leftpane': 'esm/lpane_search.html', 'midpane': 'esm/search.html',
-               'esystems': esystems, 'esc2': esc2}
+               'esystems': esystems, 'esc2': esc2, 'esc3': esc3}
     return render(request, 'esm/base_html_user.html', context)
 
 

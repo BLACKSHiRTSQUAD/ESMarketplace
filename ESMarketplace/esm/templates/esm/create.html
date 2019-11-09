@@ -1,6 +1,6 @@
 
 {% for es in esystems %}
-<button class="esbutton" onclick="location.href='/create/edit/{{ es.id }}'" type="button"><b>{{ es.title }}</b> <br>
+<button class="esbutton search_filtered" onclick="location.href='/create/edit/{{ es.id }}'" type="button"><b>{{ es.title }}</b> <br>
     {{ es.esquestion.qa_text }}</button>
 <br>
 {% endfor %}
