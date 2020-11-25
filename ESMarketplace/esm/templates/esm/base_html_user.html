@@ -10,9 +10,9 @@
 
 
 <div class="topnav">
-    <a class="{% if nbar == 'search' %}active{% endif %}" href="/search/">Search</a>
-    <a class="{% if nbar == 'create' %}active{% endif %}" href="/create/">Create</a>
-    <a style='float: right' class="{% if nbar == 'account' %}active{% endif %}" href="/account/">Account</a>
+    <a {% if nbar == 'search' %}class="active"{% endif %} href="/search/">Search</a>
+    <a {% if nbar == 'create' %}class="active"{% endif %} href="/create/">Create</a>
+    <a style='float: right' {% if nbar == 'account' %}class="active"{% endif %} href="/account/">Account</a>
 </div>
 
 <div class="maindiv container">

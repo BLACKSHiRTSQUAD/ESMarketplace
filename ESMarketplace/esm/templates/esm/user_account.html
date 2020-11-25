@@ -4,7 +4,7 @@
     {% csrf_token %}
     <b>
         {% for field in u_form %}
-        {{ field }}<br>
+        {{ field.label_tag }} {{ field }}<br>
         {% endfor %}
         <button id="edit">Edit Fields</button>
         <input type="submit" value="Save">
