@@ -25,7 +25,7 @@ SECRET_KEY = 'y5x%d^j)&kk9wma7)=su#g(y@2)_)^!a$lrch(zfu_(b-9$_=5'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'DjangoEsmApp-env.jzvbk5v22j.ap-southeast-1.elasticbeanstalk.com',
+ALLOWED_HOSTS = ['0.0.0.0', '127.0.0.1', 'localhost', 'DjangoEsmApp-env.jzvbk5v22j.ap-southeast-1.elasticbeanstalk.com',
                  'expertsystemmarketplace.com', 'expertsystemsmarketplace.com', '192.168.184.128', '10.0.0.9']
 
 
